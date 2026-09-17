@@ -97,11 +97,11 @@ Isso significa que o comando foi rodado de dentro da pasta errada.
 Correção: volte para a pasta raiz do repositório antes de rodar o comando.
 
 ```bash
-cd caminho/ate/uninove-2026-2-ead-modelagem-oo
+cd caminho/para/uninove-2026-2-ead-modelagem-oo
 dotnet run --project topico-02-classes-e-objetos
 ```
 
-Troque `caminho/ate/` pelo caminho real onde você clonou o repositório na sua máquina.
+Troque `caminho/para/` pelo caminho real onde você clonou o repositório na sua máquina.
 
 ## Experimente mudar
 

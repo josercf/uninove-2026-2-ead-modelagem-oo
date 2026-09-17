@@ -1,12 +1,12 @@
 namespace Topico02;
 
-/// <summary>Um livro do acervo da Biblioteca Comunitaria.</summary>
+/// <summary>Um livro do acervo da Biblioteca Comunitária.</summary>
 public class Livro
 {
-    // Atributos guardam o estado do objeto. Sao privados por padrao.
+    // Atributos guardam o estado do objeto. São privados por padrão.
     private bool _emprestado;
 
-    // O construtor exige os dados sem os quais um livro nao existe.
+    // O construtor exige os dados sem os quais um livro não existe.
     public Livro(string titulo, string autor, int ano)
     {
         Titulo = titulo;
@@ -15,15 +15,15 @@ public class Livro
         _emprestado = false;
     }
 
-    // Propriedades so de leitura: quem usa o objeto consulta, nao altera.
+    // Propriedades só de leitura: quem usa o objeto consulta, e não altera.
     public string Titulo { get; }
     public string Autor { get; }
     public int Ano { get; }
 
-    // Disponivel e calculado a partir do estado interno.
+    // Disponivel é calculado a partir do estado interno.
     public bool Disponivel => !_emprestado;
 
-    // Metodos mudam o estado, e protegem a regra do dominio.
+    // Métodos mudam o estado e protegem a regra do domínio.
     public void Emprestar()
     {
         if (_emprestado)

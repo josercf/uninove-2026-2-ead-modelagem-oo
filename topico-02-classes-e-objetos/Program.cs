@@ -1,5 +1,5 @@
-// Programa de demonstracao da classe Livro, primeira peca do dominio
-// da Biblioteca Comunitaria.
+// Programa de demonstração da classe Livro, primeira peça do domínio
+// da Biblioteca Comunitária.
 using Topico02;
 
 var livro = new Livro("Dom Casmurro", "Machado de Assis", 1899);

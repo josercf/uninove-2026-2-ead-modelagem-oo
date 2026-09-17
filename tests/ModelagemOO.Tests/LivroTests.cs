@@ -1,4 +1,4 @@
-// Testes da classe Livro, o primeiro objeto do dominio da Biblioteca Comunitaria.
+// Testes da classe Livro, o primeiro objeto do domínio da Biblioteca Comunitária.
 using Topico02;
 using Xunit;
 
