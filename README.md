@@ -6,6 +6,41 @@ Todo o código aqui usa um único case ao longo do semestre: a Biblioteca Comuni
 
 Os trechos de código citados nas aulas apontam para os arquivos deste repositório. Se algum trecho da aula estiver diferente do código aqui, isso é um erro do material e deve ser reportado ao professor.
 
+## Regras do domínio da Biblioteca Comunitária
+
+Os números desta seção valem para todos os tópicos da disciplina e para todo o
+código deste repositório. Eles são a fonte única dessas regras. Aula e código
+que divergirem daqui estão errados e devem ser corrigidos para estes valores.
+
+### Prazo de empréstimo por tipo de item
+
+| Tipo de item | Prazo |
+|---|---|
+| Livro | 15 dias |
+| Revista | 7 dias |
+| Mídia (DVD, CD) | 3 dias |
+
+### Limite de itens simultâneos por perfil de usuário
+
+| Perfil | Limite |
+|---|---|
+| Morador | 2 itens |
+| Estudante | 4 itens |
+| Voluntário | 6 itens |
+
+### Operações e multa
+
+O sistema trata quatro operações: empréstimo, reserva, devolução e multa.
+
+A multa nasce do atraso na devolução. Cada dia de atraso cobra um valor fixo
+por item em atraso.
+
+O valor cobrado por dia é parâmetro do sistema, e não uma constante escrita no
+meio do código. O exemplo que implementa a multa define esse parâmetro em um
+lugar só.
+
+Um usuário com multa em aberto não retira item novo e não faz reserva nova.
+
 ## Como começar
 
 Estes são os dois comandos para trazer o repositório para a sua máquina.
