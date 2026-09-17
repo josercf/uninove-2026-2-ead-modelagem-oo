@@ -29,7 +29,7 @@ public class Livro
         if (_emprestado)
         {
             throw new InvalidOperationException(
-                $"O livro '{Titulo}' ja esta emprestado.");
+                $"O livro '{Titulo}' já está emprestado.");
         }
         _emprestado = true;
     }
@@ -44,7 +44,7 @@ public class Livro
         if (!_emprestado)
         {
             throw new InvalidOperationException(
-                $"O livro '{Titulo}' nao esta emprestado.");
+                $"O livro '{Titulo}' não está emprestado.");
         }
         _emprestado = false;
     }

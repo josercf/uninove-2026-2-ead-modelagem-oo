@@ -25,7 +25,7 @@ public class LivroTests
         var livro = new Livro("Dom Casmurro", "Machado de Assis", 1899);
         livro.Emprestar();
         var excecao = Assert.Throws<InvalidOperationException>(() => livro.Emprestar());
-        Assert.Contains("Dom Casmurro", excecao.Message);
+        Assert.Equal("O livro 'Dom Casmurro' já está emprestado.", excecao.Message);
     }
 
     [Fact]
@@ -42,6 +42,6 @@ public class LivroTests
     {
         var livro = new Livro("Dom Casmurro", "Machado de Assis", 1899);
         var excecao = Assert.Throws<InvalidOperationException>(() => livro.Devolver());
-        Assert.Contains("Dom Casmurro", excecao.Message);
+        Assert.Equal("O livro 'Dom Casmurro' não está emprestado.", excecao.Message);
     }
 }

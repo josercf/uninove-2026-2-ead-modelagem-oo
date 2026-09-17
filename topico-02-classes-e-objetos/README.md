@@ -61,15 +61,15 @@ Resultado esperado: o programa imprime o título e o autor do livro, depois o em
 Esta é a saída exata do `dotnet run --project topico-02-classes-e-objetos`. Compare linha por linha com o que aparece na sua tela.
 
 ```
-Titulo:     Dom Casmurro
+Título:     Dom Casmurro
 Autor:      Machado de Assis
-Disponivel: True
+Disponível: True
 
 Emprestando o livro...
-Disponivel: False
+Disponível: False
 
 Tentando emprestar de novo...
-Erro: O livro 'Dom Casmurro' ja esta emprestado.
+Erro: O livro 'Dom Casmurro' já está emprestado.
 ```
 
 ## Se der errado
@@ -160,7 +160,7 @@ var segundoLivro = new Livro("O Cortiço", "Aluísio Azevedo", 1890);
 E, depois do trecho que empresta o primeiro `livro`, imprima o estado do segundo:
 
 ```csharp
-Console.WriteLine($"Segundo livro disponivel: {segundoLivro.Disponivel}");
+Console.WriteLine($"Segundo livro disponível: {segundoLivro.Disponivel}");
 ```
 
 Pergunta: emprestar o primeiro livro muda a disponibilidade do segundo? Cada objeto criado a partir da classe `Livro` guarda o próprio estado, ou todos compartilham o mesmo estado?
