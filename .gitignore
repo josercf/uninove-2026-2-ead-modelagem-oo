@@ -3,7 +3,7 @@ bin/
 obj/
 out/
 
-## Arquivos de usuario e de IDE
+## Arquivos de usuário e de IDE
 .vs/
 .vscode/
 *.user

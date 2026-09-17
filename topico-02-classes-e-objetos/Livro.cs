@@ -34,5 +34,18 @@ public class Livro
         _emprestado = true;
     }
 
-    public void Devolver() => _emprestado = false;
+    // Devolver espelha a guarda de Emprestar. Devolver um livro que não
+    // estava emprestado costuma indicar um erro de quem chama o método (por
+    // exemplo, devolver o mesmo livro duas vezes, ou devolver um livro que
+    // nunca saiu do acervo), então a operação lança exceção em vez de aceitar
+    // a chamada em silêncio.
+    public void Devolver()
+    {
+        if (!_emprestado)
+        {
+            throw new InvalidOperationException(
+                $"O livro '{Titulo}' nao esta emprestado.");
+        }
+        _emprestado = false;
+    }
 }

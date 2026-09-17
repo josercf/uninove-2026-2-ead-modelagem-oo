@@ -16,7 +16,9 @@ Antes de começar, confira se você tem o que precisa.
 
    Resultado esperado: um número igual ou maior que `10.0.0`. Se aparecer "comando não encontrado", veja a seção "Se der errado" mais abaixo.
 
-2. O repositório clonado na sua máquina.
+2. O repositório clonado na sua máquina. Se ainda não clonou, veja a seção
+   "Como começar" no [`README.md`](../README.md) da raiz do repositório
+   antes de continuar.
 
    Comando para confirmar (rode dentro da pasta do repositório):
 
@@ -44,7 +46,7 @@ Resultado esperado: o terminal mostra mensagens de "Restaurado" (ou "Restored") 
 dotnet test
 ```
 
-Resultado esperado: a última linha mostra `Passed! - Failed: 0, Passed: 3, Skipped: 0, Total: 3`.
+Resultado esperado: a última linha mostra `Passed! - Failed: 0, Passed: 5, Skipped: 0, Total: 5`.
 
 ### Passo 3: Rodar o exemplo
 
@@ -72,9 +74,21 @@ Erro: O livro 'Dom Casmurro' ja esta emprestado.
 
 ## Se der errado
 
-### Erro 1: "dotnet: comando não encontrado" ou "'dotnet' não é reconhecido"
+### Erro 1: o terminal não reconhece o comando `dotnet`
 
-Isso significa que o SDK do .NET não está instalado ou não está no PATH do terminal.
+No macOS ou Linux (terminal zsh, o padrão do macOS), a mensagem é:
+
+```
+zsh: command not found: dotnet
+```
+
+No Windows (PowerShell ou Prompt de Comando), a mensagem é:
+
+```
+'dotnet' is not recognized as an internal or external command, operable program or batch file.
+```
+
+As duas mensagens dizem a mesma coisa: o SDK do .NET não está instalado, ou não está no PATH do terminal.
 
 Correção no Windows:
 
@@ -90,9 +104,17 @@ brew install --cask dotnet-sdk
 
 Depois de instalar, feche o terminal, abra um novo e rode `dotnet --version` de novo para confirmar.
 
-### Erro 2: "Could not find project or directory" ou caminho não encontrado
+### Erro 2: "The provided file path does not exist"
 
-Isso significa que o comando foi rodado de dentro da pasta errada.
+Se você rodar o comando de fora da pasta raiz do repositório, a mensagem é:
+
+```
+The provided file path does not exist: topico-02-classes-e-objetos.
+```
+
+Isso significa que o comando foi rodado de dentro da pasta errada, e o
+`--project` não encontrou a pasta `topico-02-classes-e-objetos` a partir de
+onde você está.
 
 Correção: volte para a pasta raiz do repositório antes de rodar o comando.
 

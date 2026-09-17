@@ -6,6 +6,29 @@ Todo o código aqui usa um único case ao longo do semestre: a Biblioteca Comuni
 
 Os trechos de código citados nas aulas apontam para os arquivos deste repositório. Se algum trecho da aula estiver diferente do código aqui, isso é um erro do material e deve ser reportado ao professor.
 
+## Como começar
+
+Estes são os dois comandos para trazer o repositório para a sua máquina.
+Rode os dois, na ordem, em um terminal.
+
+1. Clonar o repositório:
+
+   ```bash
+   git clone https://github.com/josercf/uninove-2026-2-ead-modelagem-oo.git
+   ```
+
+   Resultado esperado: aparece uma pasta nova chamada `uninove-2026-2-ead-modelagem-oo` no lugar onde você rodou o comando.
+
+2. Entrar na pasta do repositório:
+
+   ```bash
+   cd uninove-2026-2-ead-modelagem-oo
+   ```
+
+   Resultado esperado: o terminal passa a mostrar `uninove-2026-2-ead-modelagem-oo` no caminho atual.
+
+A partir daqui, todos os comandos deste `README.md` e dos README de cada tópico devem ser rodados de dentro desta pasta.
+
 ## Tópicos
 
 | Tópico | Assunto | Pasta |
@@ -52,6 +75,7 @@ Para rodar um exemplo específico, entre na pasta do tópico indicada na tabela 
 - `topico-NN-nome-do-assunto/`: um projeto executável por tópico da disciplina.
 - `tests/ModelagemOO.Tests/`: os testes automatizados de todos os tópicos, em um único projeto xUnit.
 - `.github/workflows/ci.yml`: a integração contínua, que compila e testa o repositório a cada envio de código.
+- `docs/adrs/`: as decisões arquiteturais deste repositório, uma por arquivo.
 
 ## Licença e uso didático
 
