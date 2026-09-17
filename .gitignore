@@ -1,0 +1,17 @@
+## Pastas de build e artefatos do .NET
+bin/
+obj/
+out/
+
+## Arquivos de usuario e de IDE
+.vs/
+.vscode/
+*.user
+*.suo
+
+## macOS
+.DS_Store
+
+## Resultados de teste
+TestResults/
+*.trx
