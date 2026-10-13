@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\topico-02-classes-e-objetos\Topico02.csproj" />
     <ProjectReference Include="..\..\topico-01-paradigma-oo\Topico01.csproj" />
     <ProjectReference Include="..\..\topico-03-heranca-polimorfismo\Topico03.csproj" />
+    <ProjectReference Include="..\..\topico-04-requisitos\Topico04.csproj" />
   </ItemGroup>
 
 </Project>
