@@ -68,6 +68,7 @@ A partir daqui, todos os comandos deste `README.md` e dos README de cada tópico
 
 | Tópico | Assunto | Pasta |
 |---|---|---|
+| 01 | Paradigma orientado a objetos | [`topico-01-paradigma-oo`](./topico-01-paradigma-oo) |
 | 02 | Classes e objetos | [`topico-02-classes-e-objetos`](./topico-02-classes-e-objetos) |
 
 Os demais tópicos da disciplina serão adicionados a esta tabela conforme as próximas aulas forem publicadas.

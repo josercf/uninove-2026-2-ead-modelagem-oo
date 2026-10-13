@@ -46,7 +46,7 @@ Resultado esperado: o terminal mostra mensagens de "Restaurado" (ou "Restored") 
 dotnet test
 ```
 
-Resultado esperado: a última linha mostra `Passed! - Failed: 0, Passed: 5, Skipped: 0, Total: 5`.
+Resultado esperado: a última linha mostra `Passed! - Failed: 0, Passed: 10, Skipped: 0, Total: 10`.
 
 ### Passo 3: Rodar o exemplo
 
