@@ -52,7 +52,11 @@ Resultado esperado: o terminal mostra mensagens de "Restaurado" (ou "Restored") 
 dotnet test --filter ItemAcervoTests
 ```
 
-Resultado esperado: a última linha começa com `Passed!` e mostra `Failed: 0, Passed: 5, Skipped: 0, Total: 5`.
+Resultado esperado: a última linha da saída começa como a linha abaixo. A duração em milissegundos varia de uma execução para outra.
+
+```text
+Passed!  - Failed:     0, Passed:     5, Skipped:     0, Total:     5, Duration: 38 ms - ModelagemOO.Tests.dll (net10.0)
+```
 
 Os cinco testes ficam em `tests/ModelagemOO.Tests/ItemAcervoTests.cs`. Eles conferem o prazo de cada tipo, as três datas de devolução calculadas a partir da mesma lista, a recusa do segundo empréstimo, a recusa da devolução de um item que não saiu e a recusa de título vazio pela classe base.
 

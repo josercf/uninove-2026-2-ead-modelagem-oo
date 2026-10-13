@@ -52,7 +52,11 @@ Resultado esperado: o terminal mostra mensagens de "Restaurado" (ou "Restored") 
 dotnet test --filter RequisitosUsuarioTests
 ```
 
-Resultado esperado: a última linha começa com `Passed!` e mostra `Failed: 0, Passed: 7, Skipped: 0, Total: 7`.
+Resultado esperado: a última linha da saída começa como a linha abaixo. A duração em milissegundos varia de uma execução para outra.
+
+```text
+Passed!  - Failed:     0, Passed:     7, Skipped:     0, Total:     7, Duration: 40 ms - ModelagemOO.Tests.dll (net10.0)
+```
 
 O arquivo tem cinco métodos de teste e sete casos. O método `RF01_LimiteDeItensDependeDoPerfil` roda três vezes, uma para cada perfil. Os outros quatro métodos conferem RF02, RF03, RNF01 e a recusa de nome vazio.
 

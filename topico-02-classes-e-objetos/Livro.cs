@@ -9,13 +9,13 @@ public class Livro
     // O construtor exige os dados sem os quais um livro não existe.
     public Livro(string titulo, string autor, int ano)
     {
-        Titulo = titulo;
-        Autor = autor;
-        Ano = ano;
-        _emprestado = false;
+        Titulo = titulo;       // grava o título recebido no objeto
+        Autor = autor;         // grava o autor recebido
+        Ano = ano;             // grava o ano de publicação
+        _emprestado = false;   // todo livro novo nasce disponível
     }
 
-    // Propriedades só de leitura: quem usa o objeto consulta, e não altera.
+    // Propriedades só de leitura: quem usa o objeto lê o valor sem poder trocá-lo.
     public string Titulo { get; }
     public string Autor { get; }
     public int Ano { get; }
@@ -26,11 +26,14 @@ public class Livro
     // Métodos mudam o estado e protegem a regra do domínio.
     public void Emprestar()
     {
+        // Guarda: um livro que já está emprestado recusa o segundo empréstimo.
         if (_emprestado)
         {
+            // throw interrompe o método e entrega o erro a quem chamou.
             throw new InvalidOperationException(
                 $"O livro '{Titulo}' já está emprestado.");
         }
+        // Só chega a esta linha o livro que estava disponível.
         _emprestado = true;
     }
 

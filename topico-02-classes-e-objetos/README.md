@@ -46,7 +46,11 @@ Resultado esperado: o terminal mostra mensagens de "Restaurado" (ou "Restored") 
 dotnet test --filter LivroTests
 ```
 
-Resultado esperado: a última linha começa com `Passed!` e mostra `Failed: 0, Passed: 5, Skipped: 0, Total: 5`.
+Resultado esperado: a última linha da saída começa como a linha abaixo. A duração em milissegundos varia de uma execução para outra.
+
+```text
+Passed!  - Failed:     0, Passed:     5, Skipped:     0, Total:     5, Duration: 34 ms - ModelagemOO.Tests.dll (net10.0)
+```
 
 ### Passo 3: Rodar o exemplo
 

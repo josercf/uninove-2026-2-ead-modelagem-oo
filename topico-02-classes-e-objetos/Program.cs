@@ -10,7 +10,7 @@ var livro = new Livro("Dom Casmurro", "Machado de Assis", 1899);
 Console.WriteLine($"Título:     {livro.Titulo}");
 // livro.Autor lê outro dado do mesmo objeto.
 Console.WriteLine($"Autor:      {livro.Autor}");
-// Disponivel não é um dado guardado: o objeto calcula essa resposta.
+// Disponivel é calculado pelo objeto no momento da leitura.
 Console.WriteLine($"Disponível: {livro.Disponivel}");
 
 Console.WriteLine();
@@ -28,6 +28,6 @@ try
 }
 catch (InvalidOperationException erro)
 {
-    // A mensagem do erro vem da própria classe Livro, não daqui.
+    // A mensagem do erro foi montada dentro da classe Livro.
     Console.WriteLine($"Erro: {erro.Message}");
 }

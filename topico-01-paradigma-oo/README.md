@@ -50,7 +50,11 @@ Resultado esperado: o terminal mostra mensagens de "Restaurado" (ou "Restored") 
 dotnet test --filter EmprestimoTests
 ```
 
-Resultado esperado: a última linha começa com `Passed!` e mostra `Failed: 0, Passed: 5, Skipped: 0, Total: 5`.
+Resultado esperado: a última linha da saída começa como a linha abaixo. A duração em milissegundos varia de uma execução para outra.
+
+```text
+Passed!  - Failed:     0, Passed:     5, Skipped:     0, Total:     5, Duration: 40 ms - ModelagemOO.Tests.dll (net10.0)
+```
 
 Os cinco testes ficam em `tests/ModelagemOO.Tests/EmprestimoTests.cs`. Eles conferem que as duas versões calculam a mesma data, que a versão procedural aceita prazo zero e que o objeto recusa prazo zero, prazo negativo e título vazio.
 
