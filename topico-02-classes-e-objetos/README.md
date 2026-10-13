@@ -40,13 +40,13 @@ dotnet restore
 
 Resultado esperado: o terminal mostra mensagens de "Restaurado" (ou "Restored") e não mostra nenhuma linha de erro.
 
-### Passo 2: Rodar os testes automatizados
+### Passo 2: Rodar os testes automatizados deste tópico
 
 ```bash
-dotnet test
+dotnet test --filter LivroTests
 ```
 
-Resultado esperado: a última linha mostra `Passed! - Failed: 0, Passed: 10, Skipped: 0, Total: 10`.
+Resultado esperado: a última linha começa com `Passed!` e mostra `Failed: 0, Passed: 5, Skipped: 0, Total: 5`.
 
 ### Passo 3: Rodar o exemplo
 

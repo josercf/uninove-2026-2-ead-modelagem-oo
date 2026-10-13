@@ -136,7 +136,7 @@ Faça cada mudança separadamente. Depois de cada uma, rode `dotnet run --projec
 
 ### Mudança 1: passar um prazo negativo para a função procedural
 
-No arquivo `Program.cs`, troque o `0` da linha `Procedural com prazo 0` por `-3`.
+No arquivo `Program.cs`, troque o argumento `0` de `CalcularDevolucao(retirada, 0)` por `-3`.
 
 Pergunta: a data impressa fica antes ou depois da data de retirada? Algum erro aparece na tela?
 
@@ -146,7 +146,7 @@ No arquivo `Program.cs`, depois da linha que cria o `emprestimo`, adicione:
 
 ```csharp
 var revista = new Emprestimo("Revista do Bairro", retirada, 7);
-Console.WriteLine($"Revista volta em {revista.Devolucao:dd/MM/yyyy}");
+Console.WriteLine($"Revista volta em {revista.Devolucao:dd'/'MM'/'yyyy}");
 ```
 
 Pergunta: qual data você espera ver, sabendo que o prazo da revista na Biblioteca Comunitária é de 7 dias?
