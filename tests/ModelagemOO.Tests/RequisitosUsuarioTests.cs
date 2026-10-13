@@ -42,10 +42,18 @@ public class RequisitosUsuarioTests
     [Fact]
     public void RNF01_MensagensDeRecusaEstaoEmPortugues()
     {
-        var usuario = new Usuario("Joana", Perfil.Morador);
-        usuario.RegistrarMulta();
-        var erro = Assert.Throws<InvalidOperationException>(() => usuario.Retirar("Dom Casmurro"));
-        Assert.StartsWith("Usuário", erro.Message);
+        // Recusa por multa (RF02): a mensagem começa por "Usuário".
+        var comMulta = new Usuario("Joana", Perfil.Morador);
+        comMulta.RegistrarMulta();
+        var erroMulta = Assert.Throws<InvalidOperationException>(() => comMulta.Retirar("Dom Casmurro"));
+        Assert.StartsWith("Usuário", erroMulta.Message);
+
+        // Recusa por limite (RF01): a mensagem também começa por "Usuário".
+        // O laço usa a propriedade Limite, para que este teste dependa só do texto da mensagem.
+        var noLimite = new Usuario("Caio", Perfil.Morador);
+        for (var i = 0; i < noLimite.Limite; i++) noLimite.Retirar($"Item {i}");
+        var erroLimite = Assert.Throws<InvalidOperationException>(() => noLimite.Retirar("Um a mais"));
+        Assert.StartsWith("Usuário", erroLimite.Message);
     }
 
     [Fact]
