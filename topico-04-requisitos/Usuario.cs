@@ -18,7 +18,7 @@ public class Usuario
     public Perfil Perfil { get; }
     // IReadOnlyList: quem está fora da classe lê os itens, sem Add nem Remove.
     public IReadOnlyList<string> Itens => _itens;
-    // private set: qualquer código lê; só os métodos da classe gravam.
+    // private set: a gravação fica restrita aos métodos desta classe.
     public bool TemMultaEmAberto { get; private set; }
 
     // RF01: o limite de itens simultâneos depende do perfil.

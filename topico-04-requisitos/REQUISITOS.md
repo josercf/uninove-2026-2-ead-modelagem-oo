@@ -19,10 +19,10 @@ Os números dos requisitos RF01 a RF03 vêm das regras do domínio no
 
 - **ID**: o prefixo RF marca requisito funcional, e o prefixo RNF marca
   requisito não funcional. O número não muda depois de publicado.
-- **Tipo**: o critério é o que o requisito descreve. RF01 a RF03 descrevem
-  ações do sistema, recusar ou aceitar uma retirada, e por isso são
-  funcionais. RNF01 e RNF02 descrevem qualidades dessas ações, o idioma da
-  mensagem e os sistemas operacionais, e por isso são não funcionais.
+- **Tipo**: pelo critério do objeto descrito, RF01 a RF03 tratam de ações do
+  sistema (recusar ou aceitar uma retirada) e são funcionais, e RNF01 e RNF02
+  tratam de qualidades dessas ações (idioma da mensagem e sistemas
+  operacionais) e são não funcionais.
 - **Critério de aceite**: a condição observável que decide se o requisito foi
   cumprido.
 - **Teste que verifica**: o método de
