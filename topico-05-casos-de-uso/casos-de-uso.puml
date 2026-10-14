@@ -1,8 +1,9 @@
-@startuml casos-de-uso
+@startuml
 ' Diagrama de casos de uso da Biblioteca Comunitária, tópico 05.
 ' A especificação textual do UC01 fica em CASOS_DE_USO.md.
 left to right direction
 skinparam backgroundColor white
+skinparam dpi 150
 skinparam defaultFontName Arial
 skinparam defaultFontSize 14
 skinparam shadowing false
