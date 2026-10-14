@@ -53,10 +53,10 @@ dotnet test --filter DiagramaDeClassesTests
 Resultado esperado: a última linha da saída começa como a linha abaixo. A duração em milissegundos varia de uma execução para outra.
 
 ```text
-Passed!  - Failed:     0, Passed:     8, Skipped:     0, Total:     8, Duration: 44 ms - ModelagemOO.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:     9, Skipped:     0, Total:     9, Duration: 29 ms - ModelagemOO.Tests.dll (net10.0)
 ```
 
-São oito testes. Cinco conferem a classe `Emprestimo`: usuário obrigatório, item obrigatório, devolução pelo prazo da subclasse, limite do perfil e item já emprestado. Três conferem o diagrama `classes.puml` contra o código.
+São nove testes. Seis conferem a classe `Emprestimo`: usuário obrigatório, item obrigatório, devolução pelo prazo da subclasse, limite do perfil, item ainda emprestado e item devolvido que volta a ser emprestado. Três conferem o diagrama `classes.puml` contra o código.
 
 ### Passo 3: Rodar o exemplo
 
@@ -197,4 +197,4 @@ Pergunta: qual teste falha, e qual mensagem aparece na lista de problemas?
 
 No arquivo `objetos.puml`, acrescente um objeto `centralDoBrasil : Midia` e um empréstimo `e3` ligado a Joana.
 
-Pergunta: esse retrato pode acontecer no código? Qual multiplicidade do diagrama de classes ele contraria?
+Pergunta: esse retrato pode acontecer no código? Qual restrição do diagrama de classes ele contraria?

@@ -11,11 +11,12 @@ public class Emprestimo
         // Multiplicidade 1 nos dois lados: null lança ArgumentNullException.
         ArgumentNullException.ThrowIfNull(usuario);
         ArgumentNullException.ThrowIfNull(item);
-        // Multiplicidade 0..1: um item emprestado não entra em outro empréstimo.
+        // Item emprestado só entra em outro empréstimo depois de devolvido.
         if (!item.Disponivel)
             throw new InvalidOperationException($"O item '{item.Titulo}' já está emprestado.");
         // Multiplicidade 0..6: Retirar aplica a multa (RF02) e o limite do perfil (RF01).
         usuario.Retirar(item.Titulo);
+        // As guardas passaram: o objeto guarda os dois lados da associação e a data.
         Usuario = usuario;
         Item = item;
         Retirada = retirada;

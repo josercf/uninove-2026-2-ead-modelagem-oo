@@ -57,7 +57,7 @@ class Usuario {
   +Retirar(titulo : string) : void
 }
 
-enum Perfil {
+enum Perfil <<enumeration>> {
   Morador
   Estudante
   Voluntario
@@ -74,7 +74,7 @@ ItemAcervo <|-- Midia
 
 ' Associação: a ponta da seta traz o nome do papel, com visibilidade, e a multiplicidade.
 Emprestimo "0..6" --> "+Usuario 1" Usuario
-Emprestimo "0..1" --> "+Item 1" ItemAcervo
+Emprestimo "0..*" --> "+Item 1" ItemAcervo
 Usuario --> "+Perfil 1" Perfil
 
 note bottom of Usuario

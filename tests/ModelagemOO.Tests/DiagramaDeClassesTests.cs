@@ -55,10 +55,21 @@ public class DiagramaDeClassesTests
         var livro = new Livro("Dom Casmurro", "Machado de Assis");
         new Emprestimo(new Usuario("Joana", Perfil.Morador), livro, Retirada);
         var caio = new Usuario("Caio", Perfil.Estudante);
-        // Multiplicidade 0..1 do lado do Emprestimo: um item tem no máximo um empréstimo.
+        // Enquanto o item está emprestado, Disponivel é false e o novo empréstimo é recusado.
         Assert.Throws<InvalidOperationException>(() => new Emprestimo(caio, livro, Retirada));
         // A recusa não acrescenta o título à lista de itens de Caio.
         Assert.Empty(caio.Itens);
+    }
+
+    [Fact]
+    public void ItemDevolvidoEntraEmNovoEmprestimo()
+    {
+        var livro = new Livro("Dom Casmurro", "Machado de Assis");
+        var primeiro = new Emprestimo(new Usuario("Joana", Perfil.Morador), livro, Retirada);
+        livro.Devolver();
+        var segundo = new Emprestimo(new Usuario("Caio", Perfil.Estudante), livro, Retirada.AddDays(20));
+        // Multiplicidade 0..* do lado do Emprestimo: o mesmo item acumula empréstimos ao longo do tempo.
+        Assert.Same(primeiro.Item, segundo.Item);
     }
 
     [Fact]
@@ -70,10 +81,13 @@ public class DiagramaDeClassesTests
         {
             // A reflexão procura, na classe C# de mesmo nome, o membro com o nome desenhado.
             var membro = BuscarMembro(TipoPorNome(classe), nome);
+            // Primeiro desvio possível: o membro desenhado não existe no código.
             if (membro is null)
                 problemas.Add($"{classe}.{nome} está no diagrama e não existe no código");
+            // Segundo: o símbolo + - ou # não corresponde a public, private ou protected.
             else if (Visibilidade(membro) != visibilidade)
                 problemas.Add($"{classe}.{nome}: diagrama '{visibilidade}', código '{Visibilidade(membro)}'");
+            // Terceiro: o tipo depois dos dois-pontos difere do tipo C#; construtor não tem tipo.
             else if (tipo != "" && NomeCSharp(TipoDe(membro)) != tipo)
                 problemas.Add($"{classe}.{nome}: diagrama '{tipo}', código '{NomeCSharp(TipoDe(membro))}'");
         }
@@ -94,7 +108,7 @@ public class DiagramaDeClassesTests
     [Fact]
     public void CadaValorDaEnumeracaoDoDiagramaExisteNoCodigo()
     {
-        var corpo = Regex.Match(LerDiagrama(), @"enum Perfil \{(.*?)\}", RegexOptions.Singleline);
+        var corpo = Regex.Match(LerDiagrama(), @"enum Perfil <<enumeration>> \{(.*?)\}", RegexOptions.Singleline);
         var valores = corpo.Groups[1].Value.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         Assert.Equal(Enum.GetNames<Perfil>(), valores);
     }
