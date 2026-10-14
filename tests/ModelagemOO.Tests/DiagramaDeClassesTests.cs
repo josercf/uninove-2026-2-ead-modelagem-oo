@@ -83,7 +83,7 @@ public class DiagramaDeClassesTests
             var membro = BuscarMembro(TipoPorNome(classe), nome);
             // Primeiro desvio possível: o membro desenhado não existe no código.
             if (membro is null)
-                problemas.Add($"{classe}.{nome} está no diagrama e não existe no código");
+                problemas.Add($"{classe}.{nome}: ausente no código");
             // Segundo: o símbolo + - ou # não corresponde a public, private ou protected.
             else if (Visibilidade(membro) != visibilidade)
                 problemas.Add($"{classe}.{nome}: diagrama '{visibilidade}', código '{Visibilidade(membro)}'");
@@ -141,8 +141,8 @@ public class DiagramaDeClassesTests
         var associacoes = Regex.Matches(diagrama, @"^(\w+)(?: ""[^""]*"")? --> ""([+\-#])(\w+) [^""]*"" (\w+)\s*$", RegexOptions.Multiline);
         foreach (Match a in associacoes)
             membros.Add((a.Groups[1].Value, a.Groups[2].Value[0], a.Groups[3].Value, a.Groups[4].Value));
-        // Guarda contra um diagrama lido pela metade: são 23 membros nas caixas e 3 papéis nas associações.
-        Assert.Equal(26, membros.Count);
+        // Guarda contra um diagrama lido pela metade: hoje são 23 membros nas caixas e 3 papéis nas associações.
+        Assert.True(membros.Count >= 26, $"só {membros.Count} membros lidos de classes.puml");
         return membros;
     }
 

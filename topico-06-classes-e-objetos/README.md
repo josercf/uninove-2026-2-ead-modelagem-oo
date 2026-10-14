@@ -150,7 +150,7 @@ Depois de instalar, feche o terminal, abra um novo e rode `dotnet --version` de 
 Se você mudar `classes.puml` e o desenho deixar de bater com o C#, o teste que confere os membros falha. Por exemplo, trocar `+Devolver() : void` por `-Devolver() : void` em `ItemAcervo` produz:
 
 ```text
-  Failed DiagramaDeClassesTests.CadaMembroDoDiagramaExisteNoCodigoComAMesmaVisibilidade [12 ms]
+  Failed DiagramaDeClassesTests.CadaMembroDoDiagramaExisteNoCodigoComAMesmaVisibilidade [11 ms]
   Error Message:
    Assert.Empty() Failure: Collection was not empty
 Collection: ["ItemAcervo.Devolver: diagrama '-', código '+'"]
