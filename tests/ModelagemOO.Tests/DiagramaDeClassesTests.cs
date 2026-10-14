@@ -114,14 +114,51 @@ public class DiagramaDeClassesTests
         Assert.Equal(Enum.GetNames<Perfil>(), valores);
     }
 
-    // Procura classes.puml subindo as pastas a partir da pasta onde o teste roda,
-    // até achar a raiz do repositório (a pasta que contém ModelagemOO.sln).
-    private static string LerDiagrama()
+    [Fact]
+    public void DiagramaDeObjetosUsaSoAtributosEPapeisDoDiagramaDeClasses()
+    {
+        var problemas = new List<string>();
+        var objetos = LerDiagrama("objetos.puml");
+        // Papéis das associações, como "Emprestimo.Usuario"; o resto dos membros fica nas caixas.
+        var papeis = Regex.Matches(LerDiagrama(), @"^(\w+)(?: ""[^""]*"")? --> ""[+\-#](\w+) ", RegexOptions.Multiline)
+            .Select(a => $"{a.Groups[1].Value}.{a.Groups[2].Value}").ToHashSet();
+        var membros = MembrosDoDiagrama().Select(m => $"{m.Classe}.{m.Nome}").ToHashSet();
+        // Classe base de cada subclasse, lida das linhas "ItemAcervo <|-- Livro".
+        var bases = Regex.Matches(LerDiagrama(), @"^(\w+) <\|-- (\w+)", RegexOptions.Multiline)
+            .ToDictionary(h => h.Groups[2].Value, h => h.Groups[1].Value);
+        // Procura "Classe.nome" no conjunto e, pela herança, na classe base.
+        bool Tem(HashSet<string> conjunto, string classe, string nome) =>
+            conjunto.Contains($"{classe}.{nome}") || (bases.TryGetValue(classe, out var b) && Tem(conjunto, b, nome));
+        // Valor de objeto exige atributo na caixa; vínculo exige papel de associação.
+        bool Atributo(string classe, string nome) => Tem(membros, classe, nome) && !Tem(papeis, classe, nome);
+        bool Papel(string classe, string nome) => Tem(papeis, classe, nome);
+        // Exemplo de bloco: object "<u>joana : Usuario</u>" as joana { Nome = "Joana" ... }.
+        var classeDe = new Dictionary<string, string>();
+        foreach (Match o in Regex.Matches(objetos, @"^object ""<u>\w+ : (\w+)</u>"" as (\w+) \{(.*?)^\}", RegexOptions.Multiline | RegexOptions.Singleline))
+        {
+            classeDe[o.Groups[2].Value] = o.Groups[1].Value;
+            // Cada linha "Atributo = valor" precisa ser um atributo desenhado na classe do objeto.
+            foreach (Match v in Regex.Matches(o.Groups[3].Value, @"^\s*(\w+) = ", RegexOptions.Multiline))
+                if (!Atributo(o.Groups[1].Value, v.Groups[1].Value))
+                    problemas.Add($"{o.Groups[2].Value}.{v.Groups[1].Value}: não é atributo de {o.Groups[1].Value}");
+        }
+        // Exemplo de vínculo: e1 --> "Usuario" joana. O rótulo precisa ser papel de uma associação.
+        foreach (Match l in Regex.Matches(objetos, @"^(\w+) --> ""(\w+)"" (\w+)\s*$", RegexOptions.Multiline))
+            if (!Papel(classeDe[l.Groups[1].Value], l.Groups[2].Value))
+                problemas.Add($"vínculo {l.Groups[1].Value}.{l.Groups[2].Value}: papel ausente em {classeDe[l.Groups[1].Value]}");
+        // Guarda contra um arquivo lido pela metade: o retrato de Joana tem cinco objetos.
+        Assert.Equal(5, classeDe.Count);
+        Assert.Empty(problemas);
+    }
+
+    // Procura o arquivo (classes.puml, se nenhum for informado) subindo as pastas a partir
+    // da pasta onde o teste roda, até achar a raiz do repositório (a que contém ModelagemOO.sln).
+    private static string LerDiagrama(string arquivo = "classes.puml")
     {
         var pasta = new DirectoryInfo(AppContext.BaseDirectory);
         while (!File.Exists(Path.Combine(pasta.FullName, "ModelagemOO.sln")))
             pasta = pasta.Parent ?? throw new FileNotFoundException("ModelagemOO.sln não encontrado.");
-        return File.ReadAllText(Path.Combine(pasta.FullName, "topico-06-classes-e-objetos", "classes.puml"));
+        return File.ReadAllText(Path.Combine(pasta.FullName, "topico-06-classes-e-objetos", arquivo));
     }
 
     // Lê cada bloco "class X {" ou "abstract class X {" e devolve os membros com + - ou #.
@@ -142,7 +179,7 @@ public class DiagramaDeClassesTests
         var associacoes = Regex.Matches(diagrama, @"^(\w+)(?: ""[^""]*"")? --> ""([+\-#])(\w+) [^""]*"" (\w+)\s*$", RegexOptions.Multiline);
         foreach (Match a in associacoes)
             membros.Add((a.Groups[1].Value, a.Groups[2].Value[0], a.Groups[3].Value, a.Groups[4].Value));
-        // Guarda contra um diagrama lido pela metade: hoje são 24 membros nas caixas e 3 papéis nas associações.
+        // Guarda contra um diagrama lido pela metade: hoje são 25 membros nas caixas e 2 papéis nas associações.
         Assert.True(membros.Count >= 27, $"só {membros.Count} membros lidos de classes.puml");
         return membros;
     }

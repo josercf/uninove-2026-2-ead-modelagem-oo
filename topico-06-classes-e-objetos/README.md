@@ -6,7 +6,7 @@ O diagrama de classes fica em [`classes.puml`](./classes.puml), escrito em Plant
 
 O diagrama de objetos fica em [`objetos.puml`](./objetos.puml). Ele retrata os objetos que o `Program.cs` cria: Joana com um livro e uma revista emprestados no mesmo dia, com os mesmos valores que o programa imprime.
 
-A classe `Emprestimo` exige exatamente um usuário e exatamente um item, e calcula a data de devolução pelo prazo do tipo real do item. Os testes ficam em `tests/ModelagemOO.Tests/DiagramaDeClassesTests.cs`. Três deles leem o arquivo `classes.puml` e conferem cada membro, cada herança e cada valor da enumeração contra o código C#.
+A classe `Emprestimo` exige exatamente um usuário e exatamente um item, e calcula a data de devolução pelo prazo do tipo real do item. Os testes ficam em `tests/ModelagemOO.Tests/DiagramaDeClassesTests.cs`. Três deles leem o arquivo `classes.puml` e conferem cada membro, cada herança e cada valor da enumeração contra o código C#. O quarto confere `objetos.puml` contra `classes.puml`: cada valor de objeto precisa ser atributo da classe, e cada vínculo precisa ser papel de uma associação.
 
 ## Pré-requisitos
 
@@ -53,10 +53,10 @@ dotnet test --filter DiagramaDeClassesTests
 Resultado esperado: a última linha da saída começa como a linha abaixo. A duração em milissegundos varia de uma execução para outra.
 
 ```text
-Passed!  - Failed:     0, Passed:     9, Skipped:     0, Total:     9, Duration: 29 ms - ModelagemOO.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration: 57 ms - ModelagemOO.Tests.dll (net10.0)
 ```
 
-São nove testes. Seis conferem a classe `Emprestimo`: usuário obrigatório, item obrigatório, devolução pelo prazo da subclasse, limite do perfil, item ainda emprestado e item devolvido que volta a ser emprestado. Três conferem o diagrama `classes.puml` contra o código.
+São dez testes. Seis conferem a classe `Emprestimo`: usuário obrigatório, item obrigatório, devolução pelo prazo da subclasse, limite do perfil, item ainda emprestado e item devolvido que volta a ser emprestado. Três conferem o diagrama `classes.puml` contra o código, e um confere o diagrama de objetos `objetos.puml` contra o diagrama de classes.
 
 ### Passo 3: Rodar o exemplo
 

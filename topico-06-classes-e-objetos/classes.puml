@@ -50,6 +50,7 @@ class Midia {
 class Usuario {
   -_itens : List<string>
   +Nome : string
+  +Perfil : Perfil
   +Itens : IReadOnlyList<string>
   +TemMultaEmAberto : bool
   +Limite : int
@@ -80,7 +81,11 @@ ItemAcervo <|-- Midia
 ' Associação: a ponta da seta traz o nome do papel, com visibilidade, e a multiplicidade.
 Emprestimo "0..6" --> "+Usuario 1" Usuario
 Emprestimo "0..*" --> "+Item 1" ItemAcervo
-Usuario --> "+Perfil 1" Perfil
+
+' Perfil é atributo de Usuario (+Perfil : Perfil): o valor de uma enumeração não tem
+' identidade própria e aparece como valor no diagrama de objetos. A linha oculta só
+' posiciona a caixa da enumeração embaixo de Usuario, sem desenhar ligação.
+Usuario -[hidden]- Perfil
 
 ' Dependência: Balcao recebe um Usuario como parâmetro e não guarda referência a ele.
 Balcao ..> Usuario
