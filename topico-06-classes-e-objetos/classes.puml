@@ -1,0 +1,84 @@
+@startuml
+' Diagrama de classes da Biblioteca Comunitária, tópico 06.
+' O teste DiagramaDeClassesTests confere cada membro abaixo contra o código C#.
+' Visibilidade: + público, - privado, # protegido.
+skinparam backgroundColor white
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam ArrowColor #1F3A5F
+skinparam ArrowFontColor #1F3A5F
+skinparam ClassBorderColor #1F3A5F
+skinparam ClassBackgroundColor #E8F0FA
+skinparam ClassFontColor #000000
+skinparam ClassAttributeFontColor #000000
+skinparam ClassStereotypeFontColor #1F3A5F
+skinparam NoteBorderColor #1F3A5F
+skinparam NoteBackgroundColor #FFFFFF
+skinparam NoteFontColor #000000
+hide circle
+hide empty members
+
+abstract class ItemAcervo {
+  -_emprestado : bool
+  +Titulo : string
+  +Disponivel : bool
+  +{abstract} PrazoEmDias : int
+  #ItemAcervo(titulo : string)
+  +Emprestar(retirada : DateOnly) : DateOnly
+  +Devolver() : void
+}
+
+class Livro {
+  +Autor : string
+  +PrazoEmDias : int
+}
+
+class Revista {
+  +Edicao : int
+  +PrazoEmDias : int
+}
+
+class Midia {
+  +Formato : string
+  +PrazoEmDias : int
+}
+
+class Usuario {
+  -_itens : List<string>
+  +Nome : string
+  +Itens : IReadOnlyList<string>
+  +TemMultaEmAberto : bool
+  +Limite : int
+  +RegistrarMulta() : void
+  +QuitarMulta() : void
+  +Retirar(titulo : string) : void
+}
+
+enum Perfil {
+  Morador
+  Estudante
+  Voluntario
+}
+
+class Emprestimo {
+  +Retirada : DateOnly
+  +Devolucao : DateOnly
+}
+
+ItemAcervo <|-- Livro
+ItemAcervo <|-- Revista
+ItemAcervo <|-- Midia
+
+' Associação: a ponta da seta traz o nome do papel, com visibilidade, e a multiplicidade.
+Emprestimo "0..6" --> "+Usuario 1" Usuario
+Emprestimo "0..1" --> "+Item 1" ItemAcervo
+Usuario --> "+Perfil 1" Perfil
+
+note bottom of Usuario
+  {Emprestimo por Usuario <= Limite}
+  Morador 2, Estudante 4, Voluntario 6
+end note
+@enduml

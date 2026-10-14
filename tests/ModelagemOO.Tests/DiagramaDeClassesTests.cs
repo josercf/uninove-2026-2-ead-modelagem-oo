@@ -1,0 +1,179 @@
+// Testes do tópico 06: a classe Emprestimo e a conferência do diagrama contra o código.
+using System.Reflection;
+using System.Text.RegularExpressions;
+using Topico03;
+using Topico04;
+using Topico06;
+
+public class DiagramaDeClassesTests
+{
+    private static readonly DateOnly Retirada = new(2026, 10, 5);
+
+    [Fact]
+    public void EmprestimoExigeExatamenteUmUsuario()
+    {
+        var livro = new Livro("Dom Casmurro", "Machado de Assis");
+        // Multiplicidade 1 do lado do Usuario: sem usuário, o objeto não é criado.
+        Assert.Throws<ArgumentNullException>(() => new Emprestimo(null!, livro, Retirada));
+    }
+
+    [Fact]
+    public void EmprestimoExigeExatamenteUmItem()
+    {
+        var joana = new Usuario("Joana", Perfil.Morador);
+        // Multiplicidade 1 do lado do ItemAcervo: sem item, o objeto não é criado.
+        Assert.Throws<ArgumentNullException>(() => new Emprestimo(joana, null!, Retirada));
+    }
+
+    [Fact]
+    public void DevolucaoVemDoPrazoDaSubclasse()
+    {
+        var joana = new Usuario("Joana", Perfil.Morador);
+        var livro = new Emprestimo(joana, new Livro("Dom Casmurro", "Machado de Assis"), Retirada);
+        var revista = new Emprestimo(joana, new Revista("Superinteressante", 480), Retirada);
+        // Livro tem prazo de 15 dias e Revista de 7, pelas regras do README da raiz.
+        Assert.Equal(new DateOnly(2026, 10, 20), livro.Devolucao);
+        Assert.Equal(new DateOnly(2026, 10, 12), revista.Devolucao);
+    }
+
+    [Fact]
+    public void UsuarioMoradorNaoPassaDeDoisEmprestimos()
+    {
+        var joana = new Usuario("Joana", Perfil.Morador);
+        new Emprestimo(joana, new Livro("Dom Casmurro", "Machado de Assis"), Retirada);
+        new Emprestimo(joana, new Revista("Superinteressante", 480), Retirada);
+        var midia = new Midia("Central do Brasil", "DVD");
+        // O limite do perfil (RF01) é o teto da multiplicidade 0..6 do diagrama.
+        Assert.Throws<InvalidOperationException>(() => new Emprestimo(joana, midia, Retirada));
+        // A recusa não deixa o item marcado como emprestado.
+        Assert.True(midia.Disponivel);
+    }
+
+    [Fact]
+    public void ItemEmprestadoNaoEntraEmOutroEmprestimo()
+    {
+        var livro = new Livro("Dom Casmurro", "Machado de Assis");
+        new Emprestimo(new Usuario("Joana", Perfil.Morador), livro, Retirada);
+        var caio = new Usuario("Caio", Perfil.Estudante);
+        // Multiplicidade 0..1 do lado do Emprestimo: um item tem no máximo um empréstimo.
+        Assert.Throws<InvalidOperationException>(() => new Emprestimo(caio, livro, Retirada));
+        // A recusa não acrescenta o título à lista de itens de Caio.
+        Assert.Empty(caio.Itens);
+    }
+
+    [Fact]
+    public void CadaMembroDoDiagramaExisteNoCodigoComAMesmaVisibilidade()
+    {
+        var problemas = new List<string>();
+        // Cada membro desenhado em classes.puml vira uma tupla (classe, visibilidade, nome, tipo).
+        foreach (var (classe, visibilidade, nome, tipo) in MembrosDoDiagrama())
+        {
+            // A reflexão procura, na classe C# de mesmo nome, o membro com o nome desenhado.
+            var membro = BuscarMembro(TipoPorNome(classe), nome);
+            if (membro is null)
+                problemas.Add($"{classe}.{nome} está no diagrama e não existe no código");
+            else if (Visibilidade(membro) != visibilidade)
+                problemas.Add($"{classe}.{nome}: diagrama '{visibilidade}', código '{Visibilidade(membro)}'");
+            else if (tipo != "" && NomeCSharp(TipoDe(membro)) != tipo)
+                problemas.Add($"{classe}.{nome}: diagrama '{tipo}', código '{NomeCSharp(TipoDe(membro))}'");
+        }
+        // Assert.Empty lista todos os desvios de uma vez quando a lista não está vazia.
+        Assert.Empty(problemas);
+    }
+
+    [Fact]
+    public void CadaHerancaDoDiagramaExisteNoCodigo()
+    {
+        var herancas = Regex.Matches(LerDiagrama(), @"^(\w+) <\|-- (\w+)", RegexOptions.Multiline);
+        // O diagrama desenha três heranças: Livro, Revista e Midia a partir de ItemAcervo.
+        Assert.Equal(3, herancas.Count);
+        foreach (Match h in herancas)
+            Assert.Equal(TipoPorNome(h.Groups[1].Value), TipoPorNome(h.Groups[2].Value).BaseType);
+    }
+
+    [Fact]
+    public void CadaValorDaEnumeracaoDoDiagramaExisteNoCodigo()
+    {
+        var corpo = Regex.Match(LerDiagrama(), @"enum Perfil \{(.*?)\}", RegexOptions.Singleline);
+        var valores = corpo.Groups[1].Value.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        Assert.Equal(Enum.GetNames<Perfil>(), valores);
+    }
+
+    // Procura classes.puml subindo as pastas a partir da pasta onde o teste roda,
+    // até achar a raiz do repositório (a pasta que contém ModelagemOO.sln).
+    private static string LerDiagrama()
+    {
+        var pasta = new DirectoryInfo(AppContext.BaseDirectory);
+        while (!File.Exists(Path.Combine(pasta.FullName, "ModelagemOO.sln")))
+            pasta = pasta.Parent ?? throw new FileNotFoundException("ModelagemOO.sln não encontrado.");
+        return File.ReadAllText(Path.Combine(pasta.FullName, "topico-06-classes-e-objetos", "classes.puml"));
+    }
+
+    // Lê cada bloco "class X {" ou "abstract class X {" e devolve os membros com + - ou #.
+    // Lê também a ponta de cada associação, em que o papel vira propriedade da classe de origem.
+    private static List<(string Classe, char Visibilidade, string Nome, string Tipo)> MembrosDoDiagrama()
+    {
+        var diagrama = LerDiagrama();
+        var membros = new List<(string, char, string, string)>();
+        var blocos = Regex.Matches(diagrama, @"^(?:abstract )?class (\w+) \{(.*?)^\}", RegexOptions.Multiline | RegexOptions.Singleline);
+        foreach (Match bloco in blocos)
+        {
+            // Exemplos de linha: "+Titulo : string", "#ItemAcervo(titulo : string)".
+            var linhas = Regex.Matches(bloco.Groups[2].Value, @"^\s*([+\-#])(?:\{abstract\} )?(\w+)(\([^)]*\))?(?: : (.+?))?\s*$", RegexOptions.Multiline);
+            foreach (Match l in linhas)
+                membros.Add((bloco.Groups[1].Value, l.Groups[1].Value[0], l.Groups[2].Value, l.Groups[4].Value));
+        }
+        // Exemplo de linha: Emprestimo "0..6" --> "+Usuario 1" Usuario.
+        var associacoes = Regex.Matches(diagrama, @"^(\w+)(?: ""[^""]*"")? --> ""([+\-#])(\w+) [^""]*"" (\w+)\s*$", RegexOptions.Multiline);
+        foreach (Match a in associacoes)
+            membros.Add((a.Groups[1].Value, a.Groups[2].Value[0], a.Groups[3].Value, a.Groups[4].Value));
+        // Guarda contra um diagrama lido pela metade: são 23 membros nas caixas e 3 papéis nas associações.
+        Assert.Equal(26, membros.Count);
+        return membros;
+    }
+
+    private static Type TipoPorNome(string nome) =>
+        new[] { typeof(ItemAcervo).Assembly, typeof(Usuario).Assembly, typeof(Emprestimo).Assembly }
+            .SelectMany(a => a.GetTypes())
+            .Single(t => t.Name == nome);
+
+    private const BindingFlags Todos = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+
+    private static MemberInfo? BuscarMembro(Type tipo, string nome) =>
+        nome == tipo.Name
+            ? tipo.GetConstructors(Todos).FirstOrDefault()
+            : (MemberInfo?)tipo.GetProperty(nome, Todos) ?? (MemberInfo?)tipo.GetMethod(nome, Todos) ?? tipo.GetField(nome, Todos);
+
+    // Traduz o modificador de acesso do C# para o símbolo de visibilidade da UML.
+    private static char Visibilidade(MemberInfo membro)
+    {
+        MethodBase? metodo = membro switch
+        {
+            PropertyInfo p => p.GetMethod,
+            MethodBase m => m,
+            _ => null,
+        };
+        if (metodo is not null)
+            return metodo.IsPublic ? '+' : metodo.IsFamily ? '#' : '-';
+        var campo = (FieldInfo)membro;
+        return campo.IsPublic ? '+' : campo.IsFamily ? '#' : '-';
+    }
+
+    private static Type TipoDe(MemberInfo membro) => membro switch
+    {
+        PropertyInfo p => p.PropertyType,
+        MethodInfo m => m.ReturnType,
+        FieldInfo f => f.FieldType,
+        _ => typeof(void),
+    };
+
+    private static readonly Dictionary<string, string> Apelidos = new()
+    {
+        ["String"] = "string", ["Boolean"] = "bool", ["Int32"] = "int", ["Void"] = "void",
+    };
+
+    // Escreve o tipo como no C#: List`1 de String vira List<string>.
+    private static string NomeCSharp(Type t) => t.IsGenericType
+        ? $"{t.Name[..t.Name.IndexOf('`')]}<{string.Join(", ", t.GetGenericArguments().Select(NomeCSharp))}>"
+        : Apelidos.GetValueOrDefault(t.Name, t.Name);
+}

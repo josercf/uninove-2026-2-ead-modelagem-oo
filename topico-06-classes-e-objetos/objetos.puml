@@ -1,0 +1,52 @@
+@startuml
+' Diagrama de objetos da Biblioteca Comunitária, tópico 06.
+' Retrata o momento depois dos dois empréstimos de Joana em Program.cs.
+' Os valores são os mesmos que o dotnet run imprime.
+skinparam backgroundColor white
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam ArrowColor #1F3A5F
+skinparam ArrowFontColor #1F3A5F
+skinparam ObjectBorderColor #1F3A5F
+skinparam ObjectBackgroundColor #E8F0FA
+skinparam ObjectFontColor #000000
+skinparam ObjectAttributeFontColor #000000
+
+' O nome do objeto vem sublinhado, no formato "nome : Classe".
+object "<u>joana : Usuario</u>" as joana {
+  Nome = "Joana"
+  Perfil = Morador
+  Itens = [Dom Casmurro, Superinteressante]
+  TemMultaEmAberto = False
+}
+
+object "<u>e1 : Emprestimo</u>" as e1 {
+  Retirada = 05/10/2026
+  Devolucao = 20/10/2026
+}
+
+object "<u>e2 : Emprestimo</u>" as e2 {
+  Retirada = 05/10/2026
+  Devolucao = 12/10/2026
+}
+
+object "<u>domCasmurro : Livro</u>" as domCasmurro {
+  Titulo = "Dom Casmurro"
+  Autor = "Machado de Assis"
+  Disponivel = False
+}
+
+object "<u>superinteressante : Revista</u>" as superinteressante {
+  Titulo = "Superinteressante"
+  Edicao = 480
+  Disponivel = False
+}
+
+' Vínculo: uma instância da associação do diagrama de classes, sem multiplicidade.
+e1 --> "Usuario" joana
+e2 --> "Usuario" joana
+e1 --> "Item" domCasmurro
+e2 --> "Item" superinteressante
+@enduml
