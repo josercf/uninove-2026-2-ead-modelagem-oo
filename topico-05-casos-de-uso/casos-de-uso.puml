@@ -1,0 +1,39 @@
+@startuml casos-de-uso
+' Diagrama de casos de uso da Biblioteca Comunitária, tópico 05.
+' A especificação textual do UC01 fica em CASOS_DE_USO.md.
+left to right direction
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam ArrowColor #1F3A5F
+skinparam ArrowFontColor #1F3A5F
+skinparam ActorBorderColor #1F3A5F
+skinparam ActorBackgroundColor #FFFFFF
+skinparam UsecaseBorderColor #1F3A5F
+skinparam UsecaseBackgroundColor #E8F0FA
+skinparam UsecaseFontColor #000000
+skinparam RectangleBorderColor #1F3A5F
+skinparam RectangleFontColor #1F3A5F
+
+actor "Atendente" as Atendente
+actor "Usuário" as Usuario
+
+rectangle "Sistema da Biblioteca Comunitária" {
+  usecase "UC01\nRealizar empréstimo" as UC01
+  usecase "UC02\nDevolver item" as UC02
+  usecase "UC03\nReservar item" as UC03
+  usecase "UC04\nPagar multa" as UC04
+  usecase "UC05\nVerificar pendências" as UC05
+  usecase "UC06\nCobrar multa por atraso" as UC06
+}
+
+Atendente -- UC01
+Atendente -- UC02
+Atendente -- UC04
+Usuario -- UC03
+
+UC01 ..> UC05 : <<include>>
+UC03 ..> UC05 : <<include>>
+UC02 <.. UC06 : <<extend>>\ndevolução após o prazo
+@enduml

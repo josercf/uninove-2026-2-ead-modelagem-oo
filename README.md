@@ -72,6 +72,7 @@ A partir daqui, todos os comandos deste `README.md` e dos README de cada tópico
 | 02 | Classes e objetos | [`topico-02-classes-e-objetos`](./topico-02-classes-e-objetos) |
 | 03 | Encapsulamento, herança e polimorfismo | [`topico-03-heranca-polimorfismo`](./topico-03-heranca-polimorfismo) |
 | 04 | Requisitos funcionais e não funcionais | [`topico-04-requisitos`](./topico-04-requisitos) |
+| 05 | Diagrama de casos de uso | [`topico-05-casos-de-uso`](./topico-05-casos-de-uso) |
 
 Os demais tópicos da disciplina serão adicionados a esta tabela conforme as próximas aulas forem publicadas.
 
