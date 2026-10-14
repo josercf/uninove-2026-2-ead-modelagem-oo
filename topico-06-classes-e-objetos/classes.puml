@@ -1,5 +1,6 @@
 @startuml
 ' Diagrama de classes da Biblioteca Comunitária, tópico 06.
+' Reúne as classes dos tópicos 03, 04 e 05 e a classe Emprestimo do tópico 06.
 ' O teste DiagramaDeClassesTests confere cada membro abaixo contra o código C#.
 ' Visibilidade: + público, - privado, # protegido.
 skinparam backgroundColor white
@@ -63,6 +64,10 @@ enum Perfil <<enumeration>> {
   Voluntario
 }
 
+class Balcao {
+  +Emprestar(usuario : Usuario, titulo : string) : ResultadoAtendimento
+}
+
 class Emprestimo {
   +Retirada : DateOnly
   +Devolucao : DateOnly
@@ -76,6 +81,9 @@ ItemAcervo <|-- Midia
 Emprestimo "0..6" --> "+Usuario 1" Usuario
 Emprestimo "0..*" --> "+Item 1" ItemAcervo
 Usuario --> "+Perfil 1" Perfil
+
+' Dependência: Balcao recebe um Usuario como parâmetro e não guarda referência a ele.
+Balcao ..> Usuario
 
 note bottom of Usuario
   {Emprestimo por Usuario <= Limite}

@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Topico03;
 using Topico04;
+using Topico05;
 using Topico06;
 
 public class DiagramaDeClassesTests
@@ -141,13 +142,13 @@ public class DiagramaDeClassesTests
         var associacoes = Regex.Matches(diagrama, @"^(\w+)(?: ""[^""]*"")? --> ""([+\-#])(\w+) [^""]*"" (\w+)\s*$", RegexOptions.Multiline);
         foreach (Match a in associacoes)
             membros.Add((a.Groups[1].Value, a.Groups[2].Value[0], a.Groups[3].Value, a.Groups[4].Value));
-        // Guarda contra um diagrama lido pela metade: hoje são 23 membros nas caixas e 3 papéis nas associações.
-        Assert.True(membros.Count >= 26, $"só {membros.Count} membros lidos de classes.puml");
+        // Guarda contra um diagrama lido pela metade: hoje são 24 membros nas caixas e 3 papéis nas associações.
+        Assert.True(membros.Count >= 27, $"só {membros.Count} membros lidos de classes.puml");
         return membros;
     }
 
     private static Type TipoPorNome(string nome) =>
-        new[] { typeof(ItemAcervo).Assembly, typeof(Usuario).Assembly, typeof(Emprestimo).Assembly }
+        new[] { typeof(ItemAcervo).Assembly, typeof(Usuario).Assembly, typeof(Balcao).Assembly, typeof(Emprestimo).Assembly }
             .SelectMany(a => a.GetTypes())
             .Single(t => t.Name == nome);
 

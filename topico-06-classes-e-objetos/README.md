@@ -2,7 +2,7 @@
 
 Este exemplo desenha as classes da Biblioteca Comunitária em UML e acrescenta a classe `Emprestimo`, que liga um usuário a um item do acervo.
 
-O diagrama de classes fica em [`classes.puml`](./classes.puml), escrito em PlantUML. Ele reúne `ItemAcervo` e as subclasses `Livro`, `Revista` e `Midia` do tópico 03, `Usuario` e a enumeração `Perfil` do tópico 04, e a classe nova `Emprestimo`, com visibilidade, herança, associações e multiplicidades.
+O diagrama de classes fica em [`classes.puml`](./classes.puml), escrito em PlantUML. Ele reúne `ItemAcervo` e as subclasses `Livro`, `Revista` e `Midia` do tópico 03, `Usuario` e a enumeração `Perfil` do tópico 04, `Balcao` do tópico 05 e a classe nova `Emprestimo`, com visibilidade, herança, associações, multiplicidades e uma dependência.
 
 O diagrama de objetos fica em [`objetos.puml`](./objetos.puml). Ele retrata os objetos que o `Program.cs` cria: Joana com um livro e uma revista emprestados no mesmo dia, com os mesmos valores que o programa imprime.
 
@@ -105,7 +105,7 @@ Os arquivos `classes.puml` e `objetos.puml` são texto. Para ver o desenho, esco
 
 1. No VS Code, instale a extensão "PlantUML" (de jebbs), abra um dos arquivos e use o comando "PlantUML: Preview Current Diagram".
 
-   Resultado esperado: um painel ao lado mostra o desenho. Em `classes.puml`, sete caixas: `Emprestimo` no alto, `ItemAcervo` com as três subclasses embaixo, `Usuario` e `Perfil` à direita.
+   Resultado esperado: um painel ao lado mostra o desenho. Em `classes.puml`, oito caixas: `Emprestimo` e `Balcao` no alto, `ItemAcervo` com as três subclasses à esquerda, `Usuario` e `Perfil` à direita.
 
 2. Sem instalar nada, copie o conteúdo do arquivo e cole no editor on-line do PlantUML, em `https://www.plantuml.com/plantuml`.
 
