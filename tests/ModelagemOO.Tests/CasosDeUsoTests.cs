@@ -43,9 +43,12 @@ public class CasosDeUsoTests
         caio.RegistrarMulta();
         // A2: com multa em aberto, o pedido é recusado mesmo sem nenhum item (RF02).
         var resultado = balcao.Emprestar(caio, "Vidas Secas");
+        // Assert.False: o atendimento terminou em recusa.
         Assert.False(resultado.Aceito);
+        // A mensagem traz o motivo do RF02 e começa por "Usuário" (RNF01).
         Assert.Contains("multa em aberto", resultado.Mensagem);
         Assert.StartsWith("Usuário", resultado.Mensagem);
+        // Assert.Empty: pós-condição da recusa, a lista de itens continua vazia.
         Assert.Empty(caio.Itens);
     }
 
