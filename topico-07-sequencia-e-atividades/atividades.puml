@@ -1,0 +1,35 @@
+@startuml
+' Diagrama de atividades da devolução de um item, tópico 07.
+' O teste SequenciaEAtividadesTests confere cada ação abaixo contra as ações que
+' BalcaoComRastro.Devolver registra ao rodar, no prazo e com atraso.
+skinparam backgroundColor white
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam ArrowColor #1F3A5F
+skinparam ArrowFontColor #1F3A5F
+skinparam ActivityBorderColor #1F3A5F
+skinparam ActivityBackgroundColor #E8F0FA
+skinparam ActivityFontColor #000000
+skinparam ActivityDiamondBorderColor #1F3A5F
+skinparam ActivityDiamondBackgroundColor #FFFFFF
+skinparam ActivityDiamondFontColor #000000
+skinparam ActivityBarColor #1F3A5F
+skinparam ActivityStartColor #1F3A5F
+skinparam ActivityEndColor #1F3A5F
+
+start
+:Receber o item no balcão;
+fork
+  :Marcar o item como disponível;
+fork again
+  if (entrega depois da data prevista?) then (sim)
+    :Calcular a multa;
+    :Registrar a multa no usuário;
+  else (não)
+  endif
+end fork
+:Emitir o comprovante;
+stop
+@enduml
