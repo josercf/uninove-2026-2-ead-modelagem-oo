@@ -1,0 +1,39 @@
+@startuml
+' Diagrama de componentes do repositório, tópico 08.
+' Cada componente é um projeto .NET do repositório. O teste ComponentesEImplantacaoTests
+' confere cada seta abaixo contra os ProjectReference dos arquivos .csproj.
+skinparam backgroundColor white
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam ArrowColor #1F3A5F
+skinparam ArrowFontColor #1F3A5F
+skinparam ComponentBorderColor #1F3A5F
+skinparam ComponentBackgroundColor #E8F0FA
+skinparam ComponentFontColor #000000
+skinparam InterfaceBorderColor #1F3A5F
+skinparam InterfaceBackgroundColor #FFFFFF
+
+component [Topico08] as T08
+component [Topico07] as T07
+component [Topico06] as T06
+component [Topico04] as T04
+component [Topico03] as T03
+component [ModelagemOO.Tests] as TST
+
+T08 --> T07
+T08 --> T06
+T08 --> T04
+T08 --> T03
+T07 --> T06
+T07 --> T04
+T07 --> T03
+T06 --> T04
+T06 --> T03
+TST --> T08
+TST --> T07
+TST --> T06
+TST --> T04
+TST --> T03
+@enduml

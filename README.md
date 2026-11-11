@@ -75,6 +75,7 @@ A partir daqui, todos os comandos deste `README.md` e dos README de cada tópico
 | 05 | Diagrama de casos de uso | [`topico-05-casos-de-uso`](./topico-05-casos-de-uso) |
 | 06 | Diagrama de classes e diagrama de objetos | [`topico-06-classes-e-objetos`](./topico-06-classes-e-objetos) |
 | 07 | Diagrama de sequência e diagrama de atividades | [`topico-07-sequencia-e-atividades`](./topico-07-sequencia-e-atividades) |
+| 08 | Diagramas de estados, de componentes e de implantação | [`topico-08-estados-componentes-implantacao`](./topico-08-estados-componentes-implantacao) |
 
 Os demais tópicos da disciplina serão adicionados a esta tabela conforme as próximas aulas forem publicadas.
 

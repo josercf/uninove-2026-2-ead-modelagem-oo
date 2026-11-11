@@ -1,0 +1,40 @@
+@startuml
+' Diagrama de implantação, tópico 08: onde cada artefato roda hoje.
+' Não há servidor de aplicação, banco de dados nem rede entre os nós: a biblioteca é
+' um programa de console e uma suíte de testes executados na máquina de quem estuda,
+' e a mesma suíte roda no executor da integração contínua do GitHub.
+' O teste ComponentesEImplantacaoTests confere os artefatos abaixo contra os projetos do repositório.
+skinparam backgroundColor white
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam ArrowColor #1F3A5F
+skinparam ArrowFontColor #1F3A5F
+skinparam NodeBorderColor #1F3A5F
+skinparam NodeBackgroundColor #E8F0FA
+skinparam NodeFontColor #000000
+skinparam ArtifactBorderColor #1F3A5F
+skinparam ArtifactBackgroundColor #FFFFFF
+skinparam ArtifactFontColor #000000
+
+node "Máquina do aluno" as aluno {
+  node ".NET 10 (dotnet)" as runtime {
+    artifact "Topico08.dll" as exe
+    artifact "ModelagemOO.Tests.dll" as testes
+  }
+  artifact "estados.puml" as arq1
+  artifact "componentes.puml" as arq2
+  artifact "implantacao.puml" as arq3
+}
+
+node "Executor ubuntu-latest (GitHub Actions)" as ci {
+  node ".NET 10 (dotnet) no executor" as runtimeci {
+    artifact "ModelagemOO.Tests.dll (CI)" as testesci
+  }
+}
+
+testes ..> arq1 : lê
+testes ..> arq2 : lê
+testes ..> arq3 : lê
+@enduml
