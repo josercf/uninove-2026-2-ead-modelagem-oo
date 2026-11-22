@@ -79,14 +79,24 @@ public class ComponentesEImplantacaoTests
     public void OsArtefatosDaImplantacaoExistemNoRepositorio()
     {
         var texto = LerDiagrama("implantacao.puml");
-        var artefatos = Regex.Matches(texto, @"^\s*artifact ""([^""]+)""", RegexOptions.Multiline)
-            .Select(m => m.Groups[1].Value).ToList();
-        Assert.True(artefatos.Count >= 6, $"só {artefatos.Count} artefatos lidos de implantacao.puml");
-        foreach (var a in artefatos.Where(a => a.EndsWith(".puml")))
+        // Artefatos declarados como: artifact "Nome" as ALIAS
+        var artefatos = Regex.Matches(texto, @"^\s*artifact ""([^""]+)"" as (\w+)", RegexOptions.Multiline)
+            .ToDictionary(m => m.Groups[2].Value, m => m.Groups[1].Value);
+        Assert.True(artefatos.Count >= 9, $"só {artefatos.Count} artefatos lidos de implantacao.puml");
+        foreach (var a in artefatos.Values.Where(a => a.EndsWith(".puml")))
             Assert.True(File.Exists(Path.Combine(Raiz(), "topico-08-estados-componentes-implantacao", a)), $"{a} não existe");
         // Cada .dll corresponde a um projeto do repositório, e o CI repete o artefato de testes.
-        foreach (var dll in artefatos.Where(a => a.EndsWith(".dll")).Select(a => a.Split(' ')[0]).Distinct())
+        foreach (var dll in artefatos.Values.Where(a => a.Contains(".dll")).Select(a => a.Split(' ')[0]).Distinct())
             Assert.True(File.Exists(CsprojDe(dll[..^4])), $"{dll} não tem projeto");
+        // Os testes leem os três .puml do disco onde rodam: cada nó que roda os testes desenha a sua cópia dos três.
+        var leituras = Regex.Matches(texto, @"^(\w+) \.\.> (\w+) : lê\s*$", RegexOptions.Multiline)
+            .Select(m => (Dll: m.Groups[1].Value, Puml: m.Groups[2].Value)).ToList();
+        var testes = artefatos.Where(a => a.Value.StartsWith("ModelagemOO.Tests.dll")).Select(a => a.Key).ToList();
+        Assert.Equal(2, testes.Count);
+        foreach (var t in testes)
+            Assert.Equal(new[] { "componentes.puml", "estados.puml", "implantacao.puml" },
+                leituras.Where(l => l.Dll == t).Select(l => artefatos[l.Puml]).Order().ToArray());
+        Assert.Equal(leituras.Count, leituras.Select(l => l.Puml).Distinct().Count());
     }
 
     [Fact]

@@ -3,6 +3,9 @@
 ' Não há servidor de aplicação, banco de dados nem rede entre os nós: a biblioteca é
 ' um programa de console e uma suíte de testes executados na máquina de quem estuda,
 ' e a mesma suíte roda no executor da integração contínua do GitHub.
+' Os testes leem os três .puml do disco onde rodam. O actions/checkout leva ao executor
+' a mesma cópia do repositório, e por isso cada nó desenha os seus três arquivos.
+' Recorte: a figura omite os .dll dos outros tópicos, que ModelagemOO.Tests.dll carrega.
 ' O teste ComponentesEImplantacaoTests confere os artefatos abaixo contra os projetos do repositório.
 skinparam backgroundColor white
 skinparam dpi 150
@@ -32,9 +35,15 @@ node "Executor ubuntu-latest (GitHub Actions)" as ci {
   node ".NET 10 (dotnet) no executor" as runtimeci {
     artifact "ModelagemOO.Tests.dll (CI)" as testesci
   }
+  artifact "estados.puml" as ci1
+  artifact "componentes.puml" as ci2
+  artifact "implantacao.puml" as ci3
 }
 
 testes ..> arq1 : lê
 testes ..> arq2 : lê
 testes ..> arq3 : lê
+testesci ..> ci1 : lê
+testesci ..> ci2 : lê
+testesci ..> ci3 : lê
 @enduml

@@ -136,9 +136,9 @@ Pergunta: quais testes falham, e o que a mensagem de erro mostra sobre as linhas
 
 Acrescente `Perdido` ao `enum` em `EstadoDoEmprestimo.cs`.
 
-Pergunta: qual teste falha, e quantas células de estado por evento o diagrama passa a ter de cobrir?
+Pergunta: quais testes falham, e quantas células de estado por evento o diagrama passa a ter de cobrir?
 
-### Mudança 3: acrescentar uma dependência
+### Mudança 3: remover uma dependência
 
 Em `Topico08.csproj`, remova a linha de referência ao `Topico04.csproj` e rode `dotnet build`.
 
