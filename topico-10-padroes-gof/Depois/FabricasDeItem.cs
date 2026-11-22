@@ -5,12 +5,12 @@ namespace Topico10.Depois;
 // Factory Method: cada fábrica sabe criar um tipo de item e devolve o tipo base.
 public abstract class FabricaDeItem
 {
-    public abstract ItemAcervo Criar(string titulo, string complemento);
+    public abstract ItemAcervo Criar(string titulo, string complemento); // sem corpo: cada fábrica filha escreve o new
 }
 
-public class FabricaDeLivro : FabricaDeItem
+public class FabricaDeLivro : FabricaDeItem // herda a obrigação de escrever Criar
 {
-    public override ItemAcervo Criar(string titulo, string complemento) => new Livro(titulo, complemento);
+    public override ItemAcervo Criar(string titulo, string complemento) => new Livro(titulo, complemento); // override: esta fábrica decide a classe Livro
 }
 
 public class FabricaDeRevista : FabricaDeItem
@@ -31,7 +31,7 @@ public class FabricaDeMidia : FabricaDeItem
 // O cadastro procura a fábrica pelo tipo e não conhece nenhuma classe concreta de item.
 public class CadastroDoAcervo
 {
-    private readonly Dictionary<string, FabricaDeItem> _fabricas = [];
+    private readonly Dictionary<string, FabricaDeItem> _fabricas = []; // tipo em texto -> fábrica que o cria
 
     public static CadastroDoAcervo ComFabricasPadrao()
     {
@@ -50,8 +50,8 @@ public class CadastroDoAcervo
 
     public ItemAcervo Cadastrar(string tipo, string titulo, string complemento)
     {
-        if (!_fabricas.TryGetValue(tipo.ToLowerInvariant(), out var fabrica))
-            throw new ArgumentException($"Tipo de item desconhecido: {tipo}.");
-        return fabrica.Criar(titulo, complemento);
+        if (!_fabricas.TryGetValue(tipo.ToLowerInvariant(), out var fabrica)) // procura a fábrica; false se o tipo não foi registrado
+            throw new ArgumentException($"Tipo de item desconhecido: {tipo}."); // tipo sem fábrica só falha na execução
+        return fabrica.Criar(titulo, complemento); // a fábrica escolhida decide a classe concreta
     }
 }

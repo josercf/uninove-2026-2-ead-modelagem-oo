@@ -24,13 +24,13 @@ public static class MedidorDeTamanho
         Directory.GetFiles(pasta, "*.cs", SearchOption.AllDirectories).Sum(ContarLinhasDeArquivo);
 
     public static int ContarLinhasDeArquivo(string arquivo) =>
-        File.ReadAllLines(arquivo)
-            .Select(l => l.Trim())
-            .Count(l => l.Length > 0
-                && !l.StartsWith("//")
-                && l != "{" && l != "}"
-                && !l.StartsWith("using ")
-                && !l.StartsWith("namespace "));
+        File.ReadAllLines(arquivo) // uma string para cada linha do arquivo
+            .Select(l => l.Trim()) // tira os espaços das pontas
+            .Count(l => l.Length > 0 // conta só as linhas não vazias
+                && !l.StartsWith("//") // que não começam com comentário
+                && l != "{" && l != "}" // que não são chave isolada
+                && !l.StartsWith("using ") // que não são using
+                && !l.StartsWith("namespace ")); // e que não são namespace
 
     // Sobe a partir da pasta do executável até achar a solução.
     public static string RaizDoRepositorio()
