@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\topico-06-classes-e-objetos\Topico06.csproj" />
     <ProjectReference Include="..\..\topico-07-sequencia-e-atividades\Topico07.csproj" />
     <ProjectReference Include="..\..\topico-08-estados-componentes-implantacao\Topico08.csproj" />
+    <ProjectReference Include="..\..\topico-09-analise-e-projeto\Topico09.csproj" />
   </ItemGroup>
 
 </Project>

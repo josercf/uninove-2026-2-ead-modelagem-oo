@@ -1,0 +1,32 @@
+@startuml
+' Modelo de domínio do UC01 (Realizar empréstimo). Conceitual: só nomes e associações.
+' O teste RastreioTests confere as classes abaixo contra RASTREIO.md e contra o código.
+' Candidatas que saíram do modelo ficam nas linhas "descartado" e na tabela de RASTREIO.md.
+skinparam backgroundColor white
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam ArrowColor #1F3A5F
+skinparam ArrowFontColor #1F3A5F
+skinparam ClassBorderColor #1F3A5F
+skinparam ClassBackgroundColor #E8F0FA
+skinparam ClassFontColor #000000
+hide circle
+hide members
+
+' descartado: Atendente : ator fora do sistema, não é classe do domínio
+' descartado: Multa : é um estado do usuário (multa em aberto), sem comportamento próprio
+' descartado: Pendencia : é uma consulta sobre o usuário (UC05), não guarda dados
+' descartado: Limite : é um valor que depende do perfil, vive como atributo
+' descartado: Reserva : pertence ao UC03, que o código ainda não implementa
+
+class Usuario
+class Perfil
+class ItemAcervo
+class Emprestimo
+
+Usuario "1" --> "1" Perfil : tem
+Emprestimo "0..*" --> "1" Usuario : feito por
+Emprestimo "0..*" --> "1" ItemAcervo : de um
+@enduml
