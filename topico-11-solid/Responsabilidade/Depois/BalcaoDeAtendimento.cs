@@ -12,7 +12,7 @@ public class BalcaoDeAtendimento(RegraDeEmprestimo emprestimo, RegraDeMulta mult
     {
         var recusa = emprestimo.Aplicar(usuario, titulo);
         rastro.Anotar(TextoDoBalcao.LinhaDeEmprestimo(titulo, usuario.Nome, recusa is null));
-        return recusa ?? TextoDoBalcao.Confirmacao(titulo, usuario.Nome);
+        return recusa ?? TextoDoBalcao.Confirmacao(titulo, usuario.Nome); // ??: devolve a recusa quando ela não é nula; senão, a confirmação
     }
 
     [MotivoDeMudanca("ordem do atendimento")]

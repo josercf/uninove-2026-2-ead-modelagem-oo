@@ -13,7 +13,7 @@ public static class Passo0
             return titulo + ": devolvido no prazo, sem multa.";
         decimal multa;
         if (perfil == Perfil.Morador)
-            multa = dias * 1.00m;
+            multa = dias * 1.00m; // o sufixo m marca um valor decimal, o tipo usado para dinheiro
         else if (perfil == Perfil.Estudante)
             multa = dias * 0.50m;
         else if (perfil == Perfil.Voluntario)

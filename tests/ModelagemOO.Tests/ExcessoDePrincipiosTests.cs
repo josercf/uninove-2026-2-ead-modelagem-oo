@@ -60,7 +60,7 @@ public class ExcessoDePrincipiosTests
     [Fact]
     public void CadaInterfaceDaVersaoComPrincipiosTemUmaImplementacaoSo()
     {
-        Assert.Single(MedidorDeDependencias.Implementacoes(typeof(ComPrincipios.IFormatadorDeConfirmacao)));
+        Assert.Single(MedidorDeDependencias.Implementacoes(typeof(ComPrincipios.IFormatadorDeConfirmacao))); // Assert.Single reprova se a lista não tiver exatamente um elemento
         Assert.Single(MedidorDeDependencias.Implementacoes(typeof(ComPrincipios.IEntregadorDeConfirmacao)));
     }
 

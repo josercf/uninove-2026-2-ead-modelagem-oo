@@ -10,7 +10,7 @@ public class RefatoracaoPorPassosTests
 {
     private static readonly DateOnly Prevista = new(2026, 11, 17);
 
-    private static readonly (Perfil Perfil, int Atraso, string Esperado)[] Casos =
+    private static readonly (Perfil Perfil, int Atraso, string Esperado)[] Casos = // cada caso é uma tupla com três campos nomeados
     [
         (Perfil.Morador, -2, "Dom Casmurro: devolvido no prazo, sem multa."),
         (Perfil.Morador, 0, "Dom Casmurro: devolvido no prazo, sem multa."),
@@ -39,7 +39,7 @@ public class RefatoracaoPorPassosTests
     }
 
     [Theory]
-    [MemberData(nameof(PassoPorCaso))]
+    [MemberData(nameof(PassoPorCaso))] // cada linha devolvida por PassoPorCaso vira uma execução da teoria
     public void CadaPassoDevolveOMesmoResumo(string passo, Perfil perfil, int atraso, string esperado)
     {
         var resumo = Passos.Resumir(passo, perfil, Prevista, Prevista.AddDays(atraso), "Dom Casmurro");
