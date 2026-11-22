@@ -26,20 +26,20 @@ public static class MedidorDeAcoplamento
         foreach (var i in tipo.GetInterfaces()) Registrar(i);
         foreach (var c in tipo.GetFields(Todos)) Registrar(c.FieldType);
         foreach (var p in tipo.GetProperties(Todos)) Registrar(p.PropertyType);
-        foreach (var m in MetodosDe(tipo))
+        foreach (var m in MetodosDe(tipo)) // métodos e construtores, públicos e privados
         {
-            if (m is MethodInfo mi) Registrar(mi.ReturnType);
-            foreach (var p in m.GetParameters()) Registrar(p.ParameterType);
-            var corpo = m.GetMethodBody();
-            if (corpo is null) continue;
-            foreach (var v in corpo.LocalVariables) Registrar(v.LocalType);
-            foreach (var membro in MembrosDoCorpo(m))
+            if (m is MethodInfo mi) Registrar(mi.ReturnType); // tipo de retorno; construtor não tem
+            foreach (var p in m.GetParameters()) Registrar(p.ParameterType); // tipo de cada parâmetro
+            var corpo = m.GetMethodBody(); // corpo compilado (IL) do método
+            if (corpo is null) continue; // método abstrato não tem corpo
+            foreach (var v in corpo.LocalVariables) Registrar(v.LocalType); // variáveis locais do método
+            foreach (var membro in MembrosDoCorpo(m)) // membros que o IL do corpo usa
             {
-                Registrar(membro.DeclaringType);
-                if (membro is FieldInfo f) Registrar(f.FieldType);
+                Registrar(membro.DeclaringType); // classe dona do membro usado
+                if (membro is FieldInfo f) Registrar(f.FieldType); // tipo do campo acessado
             }
         }
-        return achados.Where(t => t != tipo && universo.Contains(t)).ToHashSet();
+        return achados.Where(t => t != tipo && universo.Contains(t)).ToHashSet(); // só tipos do universo, sem a própria classe
     }
 
     // Membros de outras classes do universo que o corpo dos métodos usa: chamadas, campos e construtores.

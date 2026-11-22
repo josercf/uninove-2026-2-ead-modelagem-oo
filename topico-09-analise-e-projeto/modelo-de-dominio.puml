@@ -26,7 +26,7 @@ class Perfil
 class ItemAcervo
 class Emprestimo
 
-Usuario "1" --> "1" Perfil : tem
-Emprestimo "0..*" --> "1" Usuario : feito por
-Emprestimo "0..*" --> "1" ItemAcervo : de um
+Usuario "0..*" ---> "1" Perfil : tem
+Emprestimo "0..*" ---> "1" Usuario : feito por
+Emprestimo "0..*" ---> "1" ItemAcervo : de um
 @enduml

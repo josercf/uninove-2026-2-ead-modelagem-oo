@@ -137,8 +137,8 @@ Rode o comando de dentro da pasta raiz do repositório, a pasta chamada `uninove
 ## Limites conhecidos
 
 - O universo medido é uma escolha. O total sobe de 10 para 13 porque o desenho novo inclui `Livro`, `Revista` e `Midia`, que substituem o `switch` de prazos do balcão antigo. Trocar o universo muda o total, e a comparação vale só entre universos declarados.
-- A contagem mede menções, não força nem frequência. Uma chamada e vinte chamadas à mesma classe contam uma dependência. Por isso o exemplo também conta membros alheios.
-- Quatro das nove candidatas a classe saíram do modelo de domínio. Criar `Multa` ou `Reserva` agora acrescentaria classes sem comportamento e sem teste de caso de uso: o teste `CandidataDescartadaNaoViraClasseNoCodigo` reprova essa antecipação. Se o UC03 for implementado, `Reserva` volta ao modelo.
+- A contagem registra se uma classe menciona outra. Uma chamada e vinte chamadas à mesma classe contam uma dependência. Por isso o exemplo também conta membros alheios.
+- Cinco das nove candidatas a classe saíram do modelo de domínio. Criar `Multa` ou `Reserva` agora acrescentaria classes sem comportamento e sem teste de caso de uso: o teste `CandidataDescartadaNaoViraClasseNoCodigo` reprova essa antecipação. Se o UC03 for implementado, `Reserva` volta ao modelo.
 - Os dois desenhos são pequenos. Os números mostram o mecanismo da medida e não valem como padrão de qualidade para outro sistema.
 
 ## Experimente mudar
