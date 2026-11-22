@@ -38,7 +38,7 @@ A tabela declara cada critério e diz o que foi medido neste repositório. A col
 | Geração a partir do código | 1 gerador por reflexão, com 0 divergências contra `classes.puml` | Depende de a ferramenta importar código C# |
 | Renome de uma classe | `Usuario` aparece em 19 linhas de 4 arquivos e é editado à mão | Ferramentas que guardam um modelo único renomeiam em um ponto |
 | Posição dos elementos | Calculada pelo PlantUML, com ajuste limitado a dicas como `-[hidden]-` | Posição livre, arrastando os elementos |
-| Conferência por teste | 23 testes leem o texto e comparam com o código | Exige exportar o modelo para um formato que o teste leia |
+| Conferência por teste | 9 dos 23 testes novos comparam um `.puml` com o código C#, e outros 5 leem o `.puml` e conferem contagens ou textos fixos | Exige exportar o modelo para um formato que o teste leia |
 
 ## Pré-requisitos
 
@@ -249,7 +249,7 @@ Alguém editou um `.puml` dos tópicos 05 a 08 ou um de `Requisito/Depois/`. Os 
 ## Limites conhecidos
 
 - O comparador confere membros, cabeçalho e heranças. A ordem dos membros dentro da caixa e as associações com multiplicidade não entram.
-- Dos quatro diagramas do requisito, três são conferidos contra o código: classes (membros), sequência (ordem das mensagens do rastro) e estados (a guarda e o comportamento). O de casos de uso só tem a estrutura conferida, porque o repositório não liga um caso de uso a uma classe.
+- Dos quatro diagramas do requisito, 2 de 4 são conferidos contra o código: classes (membros) e sequência (ordem das mensagens do rastro). O de estados tem a guarda comparada com um texto fixo no teste, e um teste separado confere que a recusa não muda o estado; nenhum teste liga essa guarda ao código de `RenovacaoComReserva`. O de casos de uso só tem a estrutura conferida, porque o repositório não liga um caso de uso a uma classe.
 - A engenharia reversa recupera 47 das 55 linhas de modelo de `classes.puml`. As 8 restantes dependem de decisão de quem modela.
 - Exceções e interfaces não entram no gerador, porque o modelo do tópico 06 não as desenha.
 - O inventário conta o texto dos tópicos 05 a 08. O `modelo-de-dominio.puml` do tópico 09 fica fora, porque o recorte da aula são os diagramas de UML dos tópicos 05 a 08.
