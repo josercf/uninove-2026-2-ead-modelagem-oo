@@ -19,7 +19,7 @@ hide members
 ' descartado: Multa : é um estado do usuário (multa em aberto), sem comportamento próprio
 ' descartado: Pendencia : é uma consulta sobre o usuário (UC05), não guarda dados
 ' descartado: Limite : é um valor que depende do perfil, vive como atributo
-' descartado: Reserva : pertence ao UC03, que o código ainda não implementa
+' descartado: Reserva : pertence ao UC03, que o balcão do tópico 09 não implementa; a Reserva do tópico 12 fica fora deste rastreio
 
 class Usuario
 class Perfil
