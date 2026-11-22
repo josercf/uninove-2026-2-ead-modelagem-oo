@@ -1,0 +1,47 @@
+@startuml
+' Máquina de estados do empréstimo, tópico 08.
+' Versão do tópico 12: a guarda de Renovar passa a exigir ausência de reserva (RF-12).
+' O teste EstadosTests confere cada seta abaixo contra o comportamento de CicloDoEmprestimo
+' e cada linha "proibida" contra as recusas do código. O formato das setas é
+' "Origem --> Destino : Evento [guarda]".
+skinparam backgroundColor white
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam ArrowColor #1F3A5F
+skinparam ArrowFontColor #1F3A5F
+skinparam StateBorderColor #1F3A5F
+skinparam StateBackgroundColor #E8F0FA
+skinparam StateFontColor #000000
+skinparam StateStartColor #1F3A5F
+skinparam StateEndColor #1F3A5F
+skinparam NoteBorderColor #1F3A5F
+skinparam NoteBackgroundColor #FFFFFF
+skinparam NoteFontColor #000000
+
+[*] --> Ativo
+Ativo --> Atrasado : VerificarPrazo [hoje > prevista]
+Ativo --> Ativo : Renovar [hoje <= prevista e renovacoes < 1 e sem reserva]
+Ativo --> Devolvido : Devolver
+Atrasado --> Devolvido : Devolver
+Devolvido --> [*]
+
+' proibida: Atrasado : VerificarPrazo
+' proibida: Atrasado : Renovar
+' proibida: Devolvido : VerificarPrazo
+' proibida: Devolvido : Renovar
+' proibida: Devolvido : Devolver
+
+note right of Ativo
+  Renovar com reserva para o item é recusado
+  e o estado não muda (RenovacaoComReserva).
+end note
+note right of Atrasado
+  Proibidas: Renovar e VerificarPrazo.
+  A multa nasce em Devolver.
+end note
+note right of Devolvido
+  Estado final: nenhum evento é aceito.
+end note
+@enduml

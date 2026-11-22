@@ -1,0 +1,68 @@
+@startuml
+' Diagrama de sequência do empréstimo de uma sacola de itens, tópico 07.
+' O teste SequenciaEAtividadesTests confere a ordem das mensagens abaixo contra o
+' rastro que BalcaoComRastro.EmprestarSacola registra ao rodar.
+' Seta cheia: chamada síncrona. Seta tracejada: retorno.
+' Versão do tópico 12: acrescenta a renovação com consulta de reserva (RF-12) depois do divisor.
+skinparam backgroundColor white
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam ArrowColor #1F3A5F
+skinparam ArrowFontColor #1F3A5F
+skinparam SequenceLifeLineBorderColor #1F3A5F
+skinparam SequenceGroupBorderColor #1F3A5F
+skinparam SequenceGroupBackgroundColor #FFFFFF
+skinparam SequenceGroupHeaderFontColor #000000
+skinparam SequenceGroupFontColor #000000
+skinparam SequenceDividerFontColor #000000
+skinparam ParticipantBorderColor #1F3A5F
+skinparam ParticipantBackgroundColor #E8F0FA
+skinparam ParticipantFontColor #000000
+skinparam ActorBorderColor #1F3A5F
+skinparam ActorBackgroundColor #E8F0FA
+skinparam ActorFontColor #000000
+skinparam NoteBorderColor #1F3A5F
+skinparam NoteBackgroundColor #FFFFFF
+skinparam NoteFontColor #000000
+
+actor Atendente
+participant Balcao
+participant Usuario
+participant ItemAcervo
+participant RenovacaoComReserva
+participant FilaDeReservas
+participant CicloDoEmprestimo
+
+Atendente -> Balcao : EmprestarSacola(usuario, itens, retirada)
+loop para cada item da sacola
+  Balcao -> ItemAcervo : Disponivel
+  ItemAcervo --> Balcao : bool
+  alt item já emprestado
+    note right of Balcao : recusa registrada, o item não muda
+  else item disponível
+    Balcao -> Usuario : Retirar(titulo)
+    alt multa em aberto ou limite do perfil atingido
+      Usuario --> Balcao : InvalidOperationException
+    else retirada aceita
+      Usuario --> Balcao : ok
+      Balcao -> ItemAcervo : Emprestar(retirada)
+      ItemAcervo --> Balcao : devolucao
+    end
+  end
+end
+Balcao --> Atendente : resultados
+
+== Renovação com consulta de reserva ==
+Atendente -> RenovacaoComReserva : Renovar(hoje)
+RenovacaoComReserva -> FilaDeReservas : TemReservaPara(item)
+FilaDeReservas --> RenovacaoComReserva : bool
+alt há reserva para o item
+  RenovacaoComReserva --> Atendente : RenovacaoBloqueadaPorReservaException
+else sem reserva
+  RenovacaoComReserva -> CicloDoEmprestimo : Renovar(hoje)
+  CicloDoEmprestimo --> RenovacaoComReserva : ok
+  RenovacaoComReserva --> Atendente : ok
+end
+@enduml

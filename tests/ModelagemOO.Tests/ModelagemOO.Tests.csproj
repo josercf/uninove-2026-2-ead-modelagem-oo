@@ -30,6 +30,7 @@
     <ProjectReference Include="..\..\topico-09-analise-e-projeto\Topico09.csproj" />
     <ProjectReference Include="..\..\topico-10-padroes-gof\Topico10.csproj" />
     <ProjectReference Include="..\..\topico-11-solid\Topico11.csproj" />
+    <ProjectReference Include="..\..\topico-12-pratica-de-modelagem\Topico12.csproj" />
   </ItemGroup>
 
 </Project>

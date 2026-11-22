@@ -1,0 +1,73 @@
+@startuml
+' Gerado por reflexão a partir do código C#, tópico 12. Não editar à mão.
+' O teste ModeloComoCodigoTests confere este arquivo contra o código a cada execução.
+skinparam backgroundColor white
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam ArrowColor #1F3A5F
+skinparam ClassBorderColor #1F3A5F
+skinparam ClassBackgroundColor #E8F0FA
+skinparam ClassFontColor #000000
+skinparam ClassAttributeFontColor #000000
+hide circle
+hide empty members
+
+abstract class ItemAcervo {
+  -_emprestado : bool
+  +Titulo : string
+  +Disponivel : bool
+  +{abstract} PrazoEmDias : int
+  #ItemAcervo(titulo : string)
+  +Emprestar(retirada : DateOnly) : DateOnly
+  +Devolver() : void
+}
+
+class Livro {
+  +Autor : string
+  +PrazoEmDias : int
+}
+
+class Revista {
+  +Edicao : int
+  +PrazoEmDias : int
+}
+
+class Midia {
+  +Formato : string
+  +PrazoEmDias : int
+}
+
+class Usuario {
+  -_itens : List<string>
+  +Nome : string
+  +Perfil : Perfil
+  +Itens : IReadOnlyList<string>
+  +TemMultaEmAberto : bool
+  +Limite : int
+  +RegistrarMulta() : void
+  +QuitarMulta() : void
+  +Retirar(titulo : string) : void
+}
+
+enum Perfil <<enumeration>> {
+  Morador
+  Estudante
+  Voluntario
+}
+
+class Balcao {
+  +Emprestar(usuario : Usuario, titulo : string) : ResultadoAtendimento
+}
+
+class Emprestimo {
+  +Retirada : DateOnly
+  +Devolucao : DateOnly
+}
+
+ItemAcervo <|-- Livro
+ItemAcervo <|-- Revista
+ItemAcervo <|-- Midia
+@enduml

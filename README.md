@@ -79,8 +79,8 @@ A partir daqui, todos os comandos deste `README.md` e dos README de cada tópico
 | 09 | Análise e projeto orientados a objetos | [`topico-09-analise-e-projeto`](./topico-09-analise-e-projeto) |
 | 10 | Padrões de projeto essenciais GoF | [`topico-10-padroes-gof`](./topico-10-padroes-gof) |
 | 11 | Princípios SOLID e qualidade de código | [`topico-11-solid`](./topico-11-solid) |
+| 12 | Ferramentas CASE e prática de modelagem | [`topico-12-pratica-de-modelagem`](./topico-12-pratica-de-modelagem) |
 
-Os demais tópicos da disciplina serão adicionados a esta tabela conforme as próximas aulas forem publicadas.
 
 ## Como rodar tudo de uma vez
 

@@ -1,0 +1,121 @@
+@startuml
+' Diagrama de classes da Biblioteca Comunitária, tópico 06.
+' Reúne as classes dos tópicos 03, 04 e 05 e a classe Emprestimo do tópico 06.
+' Versão do tópico 12: acrescenta Reserva, FilaDeReservas e RenovacaoComReserva (RF-12).
+' O teste RequisitoNovoTests regenera os blocos do código C# e compara com os abaixo.
+' Visibilidade: + público, - privado, # protegido.
+skinparam backgroundColor white
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam ArrowColor #1F3A5F
+skinparam ArrowFontColor #1F3A5F
+skinparam ClassBorderColor #1F3A5F
+skinparam ClassBackgroundColor #E8F0FA
+skinparam ClassFontColor #000000
+skinparam ClassAttributeFontColor #000000
+skinparam ClassStereotypeFontColor #1F3A5F
+skinparam NoteBorderColor #1F3A5F
+skinparam NoteBackgroundColor #FFFFFF
+skinparam NoteFontColor #000000
+hide circle
+hide empty members
+
+abstract class ItemAcervo {
+  -_emprestado : bool
+  +Titulo : string
+  +Disponivel : bool
+  +{abstract} PrazoEmDias : int
+  #ItemAcervo(titulo : string)
+  +Emprestar(retirada : DateOnly) : DateOnly
+  +Devolver() : void
+}
+
+class Livro {
+  +Autor : string
+  +PrazoEmDias : int
+}
+
+class Revista {
+  +Edicao : int
+  +PrazoEmDias : int
+}
+
+class Midia {
+  +Formato : string
+  +PrazoEmDias : int
+}
+
+class Usuario {
+  -_itens : List<string>
+  +Nome : string
+  +Perfil : Perfil
+  +Itens : IReadOnlyList<string>
+  +TemMultaEmAberto : bool
+  +Limite : int
+  +RegistrarMulta() : void
+  +QuitarMulta() : void
+  +Retirar(titulo : string) : void
+}
+
+enum Perfil <<enumeration>> {
+  Morador
+  Estudante
+  Voluntario
+}
+
+class Balcao {
+  +Emprestar(usuario : Usuario, titulo : string) : ResultadoAtendimento
+}
+
+class Emprestimo {
+  +Retirada : DateOnly
+  +Devolucao : DateOnly
+}
+
+class Reserva {
+  +Data : DateOnly
+}
+
+class FilaDeReservas {
+  -_reservas : List<Reserva>
+  +Reservar(usuario : Usuario, item : ItemAcervo, data : DateOnly) : Reserva
+  +TemReservaPara(item : ItemAcervo) : bool
+}
+
+class RenovacaoComReserva {
+  -_ciclo : CicloDoEmprestimo
+  -_emprestimo : Emprestimo
+  -_fila : FilaDeReservas
+  -_rastro : Rastro
+  +Renovar(hoje : DateOnly) : void
+}
+
+ItemAcervo <|-- Livro
+ItemAcervo <|-- Revista
+ItemAcervo <|-- Midia
+
+' Associação: a ponta da seta traz o nome do papel, com visibilidade, e a multiplicidade.
+Emprestimo "0..6" --> "+Usuario 1" Usuario
+Emprestimo "0..*" --> "+Item 1" ItemAcervo
+Reserva "0..*" --> "+Usuario 1" Usuario
+Reserva "0..*" --> "+Item 1" ItemAcervo
+FilaDeReservas ..> Reserva
+RenovacaoComReserva ..> FilaDeReservas
+RenovacaoComReserva ..> Emprestimo
+
+' Perfil é atributo de Usuario (+Perfil : Perfil): o valor de uma enumeração não tem
+' identidade própria e aparece como valor no diagrama de objetos. A linha oculta só
+' posiciona a caixa da enumeração embaixo de Usuario, sem desenhar ligação.
+Usuario -[hidden]- Perfil
+
+' Dependência: Balcao recebe um Usuario como parâmetro e não guarda referência a ele.
+Balcao ..> Usuario
+
+note bottom of Usuario
+  {Emprestimo por Usuario <= Limite}
+  Morador 2, Estudante 4, Voluntario 6
+end note
+@enduml
