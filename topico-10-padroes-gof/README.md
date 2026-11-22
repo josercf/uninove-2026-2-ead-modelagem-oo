@@ -1,6 +1,8 @@
 # Tópico 10: Padrões de projeto essenciais GoF
 
-Este exemplo aplica três padrões do catálogo GoF (Strategy, Observer e Factory Method) a código da Biblioteca Comunitária e mostra, para cada um, o desenho antes e o desenho depois com o mesmo cenário de teste. Um quarto conjunto mostra o limite: uma regra constante embrulhada em três padrões, com a contagem de tipos e de linhas das duas versões.
+Este exemplo aplica dois padrões do catálogo GoF (Strategy e Observer) e um registro de fábricas a código da Biblioteca Comunitária e mostra, para cada um, o desenho antes e o desenho depois com o mesmo cenário de teste. Um quarto conjunto mostra o limite: uma regra constante embrulhada em um Strategy, um Observer e uma fábrica estática, com a contagem de tipos e de linhas das duas versões.
+
+O registro de fábricas guarda objetos fábrica num dicionário e escolhe um pelo texto do tipo, em tempo de execução. O comentário de `Depois/FabricasDeItem.cs`, a saída do programa e o arquivo `FactoryItensTests.cs` usam o rótulo Factory para esse desenho.
 
 Os valores de multa por perfil (R$ 1,00, R$ 0,50 e R$ 0,25 por dia) são dados de exemplo desta aula, sem relação com regra de biblioteca real. O prazo polimórfico dos itens vem do tópico 03, e o `Perfil` e o `Usuario` vêm do tópico 04.
 
@@ -8,8 +10,8 @@ Os valores de multa por perfil (R$ 1,00, R$ 0,50 e R$ 0,25 por dia) são dados d
 |---|---|---|---|
 | Strategy | [`Antes/CalculadoraDeMultaComSwitch.cs`](./Antes/CalculadoraDeMultaComSwitch.cs), um `switch` sobre o perfil | [`Depois/PoliticaDeMulta.cs`](./Depois/PoliticaDeMulta.cs), uma política por perfil | Multa de cada perfil para 0, 1 e 10 dias de atraso |
 | Observer | [`Antes/DevolucaoComAvisoDireto.cs`](./Antes/DevolucaoComAvisoDireto.cs), a devolução chama cada interessado | [`Depois/Devolucao.cs`](./Depois/Devolucao.cs), interessados inscritos | As duas mensagens da devolução, no prazo e com atraso |
-| Factory Method | [`Antes/CadastroComSwitch.cs`](./Antes/CadastroComSwitch.cs), um `switch` sobre o tipo | [`Depois/FabricasDeItem.cs`](./Depois/FabricasDeItem.cs), uma fábrica por tipo | Tipo e prazo do item criado, e as mensagens de recusa |
-| Limite | [`Excesso/Simples/`](./Excesso/Simples), uma constante e um método | [`Excesso/ComPadroes/`](./Excesso/ComPadroes), Strategy, Factory e Observer | Resultado de `Permitida` para 0, 1, 2 e 5 renovações |
+| Registro de fábricas | [`Antes/CadastroComSwitch.cs`](./Antes/CadastroComSwitch.cs), um `switch` sobre o tipo | [`Depois/FabricasDeItem.cs`](./Depois/FabricasDeItem.cs), uma fábrica por tipo | Tipo e prazo do item criado, e as mensagens de recusa |
+| Limite | [`Excesso/Simples/`](./Excesso/Simples), uma constante e um método | [`Excesso/ComPadroes/`](./Excesso/ComPadroes), Strategy, fábrica estática e Observer | Resultado de `Permitida` para 0, 1, 2 e 5 renovações |
 
 [`MedidorDeTamanho.cs`](./MedidorDeTamanho.cs) conta os tipos de um namespace por reflexão e as linhas com código dos arquivos. Linha com código é a que não está vazia e não é comentário, chave isolada, `using` nem `namespace`.
 
@@ -63,7 +65,7 @@ Resultado esperado:
 Passed!  - Failed:     0, Passed:     6, Skipped:     0, Total:     6, Duration: 16 ms - ModelagemOO.Tests.dll (net10.0)
 ```
 
-### Passo 4: Rodar os testes do Factory Method
+### Passo 4: Rodar os testes do registro de fábricas
 
 ```bash
 dotnet test --filter FactoryItensTests
@@ -131,7 +133,7 @@ Tamanho de cada versão (tipos e linhas com código):
   Renovação, padrões  6 tipo(s),  20 linhas
 ```
 
-A versão simples da renovação tem 1 tipo e 3 linhas. A versão com padrões tem 6 tipos e 20 linhas e decide exatamente igual, porque a regra tem uma variante só e ninguém pediu o aviso do observador.
+A versão simples da renovação tem 1 tipo e 3 linhas. A versão com padrões tem 6 tipos e 20 linhas e decide igual, porque a regra tem uma variante só e ninguém pediu o aviso do observador.
 
 ## Se der errado
 
@@ -151,7 +153,7 @@ Os testes de medida procuram a solução subindo a partir da pasta do executáve
 
 - O Strategy não elimina a escolha do perfil. O `switch` sai do cálculo e fica em `PoliticasPorPerfil.Para`, num ponto só. O desenho depois tem 6 tipos e 23 linhas contra 1 tipo e 9 linhas do antes, e esse custo só compensa se os perfis variarem ou crescerem.
 - O Observer avisa na ordem de inscrição e não isola falhas. O teste `ObservadorQueFalhaInterrompeOsSeguintes` mostra que um observador que lança exceção impede os seguintes de receber o aviso, e que a devolução já tinha ocorrido.
-- O Factory Method troca o `switch` por um dicionário de fábricas. A fábrica nova entra sem editar o cadastro, mas o registro dos tipos padrão continua escrito em `ComFabricasPadrao`.
+- O registro de fábricas troca o `switch` por um dicionário de fábricas. Um tipo novo que o sistema ofereça por padrão custa a classe do produto, a classe da fábrica e uma linha `Registrar` em `ComFabricasPadrao`, método do próprio `CadastroDoAcervo`. Só um registro feito de fora, como o do teste `TipoNovoEntraPorFabricaRegistrada`, evita editar o cadastro. Uma chave de tipo escrita errada só falha na execução.
 - A contagem de linhas ignora comentários e chaves isoladas e depende do estilo de formatação do código. Os números comparam as duas versões deste repositório e não valem como medida de outro projeto.
 - Os dois desenhos são pequenos e escritos para o exemplo. Eles mostram o mecanismo, e o custo ou o ganho de um padrão em um sistema real depende de quantas variantes e de quantos interessados esse sistema tem.
 
