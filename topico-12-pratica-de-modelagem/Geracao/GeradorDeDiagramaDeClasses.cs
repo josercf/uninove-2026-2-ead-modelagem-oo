@@ -72,7 +72,7 @@ public static class GeradorDeDiagramaDeClasses
         foreach (var p in tipo.GetProperties(Declarados).OrderBy(p => p.MetadataToken))
         {
             if (EhAssociacao(p.PropertyType, modelo)) continue;
-            var acesso = p.GetMethod ?? p.SetMethod!;
+            var acesso = p.GetMethod ?? p.SetMethod!;  // acessor de leitura; na falta dele, o de escrita
             linhas.Add($"{Visibilidade(acesso.IsPublic, acesso.IsFamily || acesso.IsFamilyOrAssembly)}{Abstrato(acesso)}{p.Name} : {Nome(p.PropertyType)}");
         }
         // Construtores: o público é omitido por convenção; só o protegido ou privado aparece.

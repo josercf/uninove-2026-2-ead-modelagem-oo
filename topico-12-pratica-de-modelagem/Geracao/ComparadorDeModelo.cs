@@ -22,14 +22,14 @@ public static class ComparadorDeModelo
         foreach (var nome in emCodigo.Keys.Except(desenhado.Keys))
             divergencias.Add(new(nome, "classe ausente no diagrama"));
 
-        foreach (var nome in desenhado.Keys.Intersect(emCodigo.Keys))
+        foreach (var nome in desenhado.Keys.Intersect(emCodigo.Keys))  // classes que existem nos dois lados
         {
-            var (d, c) = (desenhado[nome], emCodigo[nome]);
-            if (d.Cabecalho != c.Cabecalho)
+            var (d, c) = (desenhado[nome], emCodigo[nome]);  // bloco desenhado e bloco gerado da mesma classe
+            if (d.Cabecalho != c.Cabecalho)  // "abstract class" contra "class"
                 divergencias.Add(new(nome, "cabeçalho diferente", $"diagrama '{d.Cabecalho}', código '{c.Cabecalho}'"));
-            foreach (var m in d.Membros.Except(c.Membros))
+            foreach (var m in d.Membros.Except(c.Membros))  // Except: membros desenhados que faltam no código
                 divergencias.Add(new(nome, "membro ausente no código", m));
-            foreach (var m in c.Membros.Except(d.Membros))
+            foreach (var m in c.Membros.Except(d.Membros))  // Except: membros do código que faltam no desenho
                 divergencias.Add(new(nome, "membro ausente no diagrama", m));
         }
 
